@@ -88,13 +88,15 @@ def generate_message():
 
     link = generate_unique_link(service)
 
+    # ✅ МЫНДА ЖАЗЫЛАДЫ
+    now = get_kz_time()
+
     return {
         "service": service["name"],
         "email": f"support@{link.replace('https://','').split('/')[0]}",
         "title": title,
         "text": f"{msg} {urgent}",
         "link": link,
-        now = get_kz_time()
         "time": now.strftime("%H:%M"),
         "date": now.strftime("%d.%m.%Y"),
         "type": service["type"]
