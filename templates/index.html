@@ -53,15 +53,13 @@ function renderButtons(actions, correct) {
         btn.innerText = action;
 
         btn.onclick = () => {
-    if (action === correct) {
-        result.innerText = "✅ Дұрыс!";
-    } else {
-        result.innerText = "❌ Қате!";
-    }
-
-    // барлық батырманы disable
-    document.querySelectorAll("#buttons button").forEach(b => b.disabled = true);
-};
+            if (action === correct) {
+                result.innerText = "✅ Дұрыс!";
+            } else {
+                result.innerText = "❌ Қате!";
+            }
+            document.querySelectorAll("#buttons button").forEach(b => b.disabled = true);
+        };
 
         container.appendChild(btn);
     });
