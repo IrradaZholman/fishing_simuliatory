@@ -26,12 +26,24 @@ async function loadMessage() {
     let res = await fetch("/get-message");
     let data = await res.json();
 
+    // 🔥 БАРЛЫҒЫН толтыру
+    document.getElementById("service").innerText = data.service;
+    document.getElementById("email").innerText = data.email;
+    document.getElementById("title").innerText = data.title;
     document.getElementById("text").innerText = data.text;
+    document.getElementById("link").innerText = data.link;
+    document.getElementById("time").innerText = data.time;
+    document.getElementById("date").innerText = data.date;
 
+    // кнопкалар
     renderButtons(data.actions, data.correct);
+
+    // нәтиже тазалау
+    document.getElementById("result").innerText = "";
 }
 
 window.onload = loadMessage;
+
 function renderButtons(actions, correct) {
     let container = document.getElementById("buttons");
     container.innerHTML = "";
@@ -41,12 +53,15 @@ function renderButtons(actions, correct) {
         btn.innerText = action;
 
         btn.onclick = () => {
-            if (action === correct) {
-                document.getElementById("result").innerText = "✅ Дұрыс!";
-            } else {
-                document.getElementById("result").innerText = "❌ Қате!";
-            }
-        };
+    if (action === correct) {
+        result.innerText = "✅ Дұрыс!";
+    } else {
+        result.innerText = "❌ Қате!";
+    }
+
+    // барлық батырманы disable
+    document.querySelectorAll("#buttons button").forEach(b => b.disabled = true);
+};
 
         container.appendChild(btn);
     });
