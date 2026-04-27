@@ -102,6 +102,9 @@ def generate_message():
     urgent = random.choice(urgency)
 
     link = generate_unique_link(service)
+    intro = random.choice(intros)
+    ending = random.choice(endings)
+    full_text = f"{intro} {msg} {urgent}. {ending}"
 
     # ✅ МЫНДА ЖАЗЫЛАДЫ
     now = get_kz_time()
