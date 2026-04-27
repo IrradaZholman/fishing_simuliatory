@@ -98,14 +98,17 @@ def generate_message():
     service = random.choice(services)
 
     title = random.choice(actions)
-    msg = random.choice(messages)
+
+    intro = random.choice(intros)
+    main = random.choice(messages)
     urgent = random.choice(urgency)
+    ending = random.choice(endings)
+
+    full_text = f"{intro}\n\n{main}\n\n{urgent}\n\n{ending}"
 
     link = generate_unique_link(service)
-
     now = get_kz_time()
 
-    # 4 әрекет
     actions_list = [
         "Сілтемеге өтемін",
         "URL мекенжайын тексеремін",
@@ -113,24 +116,20 @@ def generate_message():
         "Досымнан немесе ата-анамнан сұраймын"
     ]
 
-    # дұрыс жауап (фишинг → өтпеу керек!)
     correct = "URL мекенжайын тексеремін"
 
     return {
         "service": service["name"],
         "email": f"support@{link.replace('https://','').split('/')[0]}",
         "title": title,
-        "text": f"{msg} {urgent}",
+        "text": full_text,
         "link": link,
         "time": now.strftime("%H:%M"),
         "date": now.strftime("%d.%m.%Y"),
         "type": service["type"],
-
-        # 🔥 жаңа
         "actions": actions_list,
         "correct": correct
     }
-
 # ===== ТЕСТ =====
 if __name__ == "__main__":
     for _ in range(10):
