@@ -15,8 +15,6 @@ def load_used():
 def save_used(link):
     with open("used_links.txt", "a") as f:
         f.write(link + "\n")
-def get_kz_time():
-    return datetime.utcnow() + timedelta(hours=5)
 # файлдан бұрынғы сілтемелерді жүктеу
 load_used()
 
@@ -77,7 +75,10 @@ def generate_unique_link(service):
     fake = random.choice(fake_domains)
     base = service["name"].lower().split()[0]
     return f"https://{base}-{fake}/verify"
-
+    
+def get_kz_time():
+    return datetime.utcnow() + timedelta(hours=5)
+    
 # ===== НЕГІЗГІ ГЕНЕРАЦИЯ =====
 def generate_message():
     service = random.choice(services)
