@@ -1,5 +1,5 @@
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # ===== УНИКАЛДЫЛЫҚ =====
 used_links = set()
