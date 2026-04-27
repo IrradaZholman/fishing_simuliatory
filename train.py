@@ -94,8 +94,9 @@ def generate_message():
         "title": title,
         "text": f"{msg} {urgent}",
         "link": link,
-        "time": datetime.now().strftime("%H:%M"),
-        "date": datetime.now().strftime("%d.%m.%Y"),
+        now = get_kz_time()
+        "time": now.strftime("%H:%M"),
+        "date": now.strftime("%d.%m.%Y"),
         "type": service["type"]
     }
 
