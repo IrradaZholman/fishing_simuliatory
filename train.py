@@ -113,7 +113,7 @@ def generate_message():
         "service": service["name"],
         "email": f"support@{link.replace('https://','').split('/')[0]}",
         "title": title,
-        "text": f"{msg} {urgent}",
+        "text": full_text,
         "link": link,
         "time": now.strftime("%H:%M"),
         "date": now.strftime("%d.%m.%Y"),
