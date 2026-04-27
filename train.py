@@ -129,7 +129,7 @@ def generate_message():
         # 🔥 жаңа
         "actions": actions_list,
         "correct": correct
-    }}
+    }
 
 # ===== ТЕСТ =====
 if __name__ == "__main__":
