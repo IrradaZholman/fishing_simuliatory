@@ -21,25 +21,34 @@
 
 <script>
 async function loadMessage() {
-    try {
-        let res = await fetch("/get-message");
-        let data = await res.json();
+    let res = await fetch("/get-message");
+    let data = await res.json();
 
-        document.getElementById("service").innerText = data.service;
-        document.getElementById("email").innerText = data.email;
-        document.getElementById("title").innerText = data.title;
-        document.getElementById("text").innerText = data.text;
-        document.getElementById("link").innerText = data.link;
-        document.getElementById("time").innerText = data.time;
-        document.getElementById("date").innerText = data.date;
+    document.getElementById("text").innerText = data.text;
 
-    } catch (e) {
-        console.error("ERROR:", e);
-        document.body.innerHTML = "Қате шықты: " + e;
-    }
+    renderButtons(data.actions, data.correct);
 }
 
 window.onload = loadMessage;
+function renderButtons(actions, correct) {
+    let container = document.getElementById("buttons");
+    container.innerHTML = "";
+
+    actions.forEach(action => {
+        let btn = document.createElement("button");
+        btn.innerText = action;
+
+        btn.onclick = () => {
+            if (action === correct) {
+                document.getElementById("result").innerText = "✅ Дұрыс!";
+            } else {
+                document.getElementById("result").innerText = "❌ Қате!";
+            }
+        };
+
+        container.appendChild(btn);
+    });
+}
 </script>
 
 </body>
