@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>CyberSafe Header</title>
-    <link rel="stylesheet" href="simuliator_design.css" />
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='simuliator_design.css') }}"
@@ -19,7 +18,7 @@
     <header class="navbar">
       <div class="logo">
         <div class="icon">
-          <img src="logo.png" alt="logo" />
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" />
         </div>
         <div class="text">
           <span class="title">SIMULIATOR</span>
@@ -81,7 +80,7 @@
     <!-- Сол жақ МЕНЮ-і -->
     <div id="dashboardPage" class="dashboard" style="display: flex">
       <div class="dashboard-content">
-        <h1>Сәлем, Maks! 👋</h1>
+        <h1 id="welcomeText">Сәлем! 👋</h1>
         <p class="dash-subtitle">
           Бүгін де жаңа білім алып, дағдыларыңды жетілдір!
         </p>
@@ -218,22 +217,22 @@
 
         <div class="card actions">
           <div class="btn red">
-            <i class="fa-regular fa-circle-xmark"></i>
+            <i data-lucide="x-circle"></i>
             Сілтемеге өтемін
           </div>
 
           <div class="btn blue">
-            <i class="fa-regular fa-circle-check"></i>
+            <i data-lucide="check-circle"></i>
             URL мекенжайын тексеремін
           </div>
 
           <div class="btn green">
-            <i class="fa-regular fa-circle-question"></i>
+            <i data-lucide="shield-check"></i>
             Хатты елемеймін
           </div>
 
           <div class="btn purple">
-            <i class="fa-regular fa-clock"></i>
+            <i data-lucide="clock"></i>
             Досымнан немесе ата-анамнан сұраймын
           </div>
         </div>
@@ -244,7 +243,7 @@
         <!-- 1.БАСТАПҚЫ НҰСҚАУЛЫҚ -->
         <div id="emptyState" class="empty-state">
           <div class="empty-icon">
-            <img src="doc_komekshi.png" alt="" />
+            <img src="{{ url_for('static', filename='doc_komekshi.png') }}" />
           </div>
           <h3>Фишингті анықта</h3>
           <p>
@@ -253,7 +252,7 @@
             Жауаптан кейін сіз жаңа білім аласыз.
           </p>
           <div class="empty-arrow">
-            <img src="strelka.png" alt="" />
+            <img src="{{ url_for('static', filename='strelka.png') }}" />
           </div>
         </div>
 
@@ -380,7 +379,7 @@
       <div class="fake-sidebar">
         <div id="emptyState2" class="empty-state2">
           <div class="empty-icon2">
-            <img src="doc_komekshi.png" alt="" />
+            <img src="{{ url_for('static', filename='doc_komekshi.png') }}" />
           </div>
           <h3>Дұрыс сайтты анықтаңыз</h3>
           <p>
@@ -388,7 +387,7 @@
             ашылады.
           </p>
           <div class="empty-arrow2">
-            <img src="strelka.png" alt="" />
+            <img src="{{ url_for('static', filename='strelka.png') }}" />
           </div>
         </div>
 
