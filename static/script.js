@@ -109,8 +109,8 @@ function showRegister() {
 
             <div class="options">
               <label class="remember">
-                <input id="rememberMe" type="checkbox" />
-                <span>Мен <a href="terms.html">пайдаланушы келісіміне</a> және <a href="terms.html">құпиялық саясатымен</a> келісемін</span>
+                <input id="agree" type="checkbox" />
+                <span>Мен <a href="/terms">пайдаланушы келісіміне</a> және <a href="/terms">құпиялық саясатымен</a> келісемін</span>
               </label>
             </div>
 
