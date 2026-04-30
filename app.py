@@ -11,7 +11,8 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 
 def get_db():
     if not DATABASE_URL:
-        raise Exception("DATABASE_URL табылмады")
+        raise Exception("DATABASE_URL табылмады. Render Environment-ке DATABASE_URL қосыңыз.")
+
     return psycopg2.connect(
         DATABASE_URL,
         cursor_factory=psycopg2.extras.RealDictCursor
@@ -19,6 +20,9 @@ def get_db():
 
 
 def init_db():
+    conn = None
+    cur = None
+
     try:
         conn = get_db()
         cur = conn.cursor()
@@ -34,13 +38,29 @@ def init_db():
             );
         """)
 
+        cur.execute("""
+            ALTER TABLE users
+            ADD COLUMN IF NOT EXISTS nickname VARCHAR(50);
+        """)
+
+        cur.execute("""
+            CREATE UNIQUE INDEX IF NOT EXISTS users_nickname_unique
+            ON users (nickname);
+        """)
+
         conn.commit()
-        cur.close()
-        conn.close()
         print("Database дайын!")
 
     except Exception as e:
+        if conn:
+            conn.rollback()
         print("Database қатесі:", e)
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 
 init_db()
@@ -69,9 +89,12 @@ def api_register():
     try:
         data = request.get_json()
 
+        if not data:
+            return jsonify({"success": False, "message": "Деректер келмеді"})
+
         fullname = data.get("fullname", "").strip()
-        username = data.get("username", "").strip()  # login
-        nickname = data.get("nickname", "").strip()  # nickname
+        username = data.get("username", "").strip()
+        nickname = data.get("nickname", "").strip()
         email = data.get("email", "").strip()
         password = data.get("password", "").strip()
 
@@ -95,11 +118,18 @@ def api_register():
     except psycopg2.errors.UniqueViolation:
         if conn:
             conn.rollback()
-        return jsonify({"success": False, "message": "Логин, никнейм немесе email бар"})
+        return jsonify({"success": False, "message": "Логин, никнейм немесе email бұрын тіркелген"})
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return jsonify({"success": False, "message": "Сервер қатесі: " + str(e)})
 
     finally:
-        if cur: cur.close()
-        if conn: conn.close()
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 
 @app.route("/api/login", methods=["POST"])
@@ -123,7 +153,7 @@ def api_login():
         cur = conn.cursor()
 
         cur.execute("""
-            SELECT id, fullname, username, email, password_hash
+            SELECT id, fullname, username, nickname, email, password_hash
             FROM users
             WHERE username = %s OR email = %s
             LIMIT 1
@@ -144,6 +174,7 @@ def api_login():
                 "id": user["id"],
                 "fullname": user["fullname"],
                 "username": user["username"],
+                "nickname": user["nickname"],
                 "email": user["email"]
             }
         })
@@ -160,61 +191,98 @@ def api_login():
 
 @app.route("/api/forgot/check", methods=["POST"])
 def forgot_check():
-    data = request.get_json()
+    conn = None
+    cur = None
 
-    email = data.get("email", "").strip()
-    nickname = data.get("nickname", "").strip()
+    try:
+        data = request.get_json()
 
-    conn = get_db()
-    cur = conn.cursor()
+        if not data:
+            return jsonify({"success": False, "message": "Деректер келмеді"})
 
-    cur.execute("""
-        SELECT id FROM users
-        WHERE email = %s AND nickname = %s
-        LIMIT 1
-    """, (email, nickname))
+        email = data.get("email", "").strip()
+        nickname = data.get("nickname", "").strip()
 
-    user = cur.fetchone()
+        if not email or not nickname:
+            return jsonify({"success": False, "message": "Email және никнеймді енгізіңіз"})
 
-    cur.close()
-    conn.close()
+        conn = get_db()
+        cur = conn.cursor()
 
-    if not user:
-        return jsonify({"success": False, "message": "Email немесе никнейм қате"})
+        cur.execute("""
+            SELECT id FROM users
+            WHERE email = %s AND nickname = %s
+            LIMIT 1
+        """, (email, nickname))
 
-    return jsonify({"success": True})
+        user = cur.fetchone()
+
+        if not user:
+            return jsonify({"success": False, "message": "Email немесе никнейм қате"})
+
+        return jsonify({"success": True, "message": "Аккаунт табылды"})
+
+    except Exception as e:
+        return jsonify({"success": False, "message": "Сервер қатесі: " + str(e)})
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 
 @app.route("/api/forgot/reset", methods=["POST"])
 def forgot_reset():
-    data = request.get_json()
+    conn = None
+    cur = None
 
-    email = data.get("email", "").strip()
-    nickname = data.get("nickname", "").strip()
-    new_password = data.get("newPassword", "").strip()
+    try:
+        data = request.get_json()
 
-    new_hash = generate_password_hash(new_password)
+        if not data:
+            return jsonify({"success": False, "message": "Деректер келмеді"})
 
-    conn = get_db()
-    cur = conn.cursor()
+        email = data.get("email", "").strip()
+        nickname = data.get("nickname", "").strip()
+        new_password = data.get("newPassword", "").strip()
 
-    cur.execute("""
-        UPDATE users
-        SET password_hash = %s
-        WHERE email = %s AND nickname = %s
-        RETURNING id
-    """, (new_hash, email, nickname))
+        if not email or not nickname or not new_password:
+            return jsonify({"success": False, "message": "Барлық жолдарды толтырыңыз"})
 
-    updated = cur.fetchone()
-    conn.commit()
+        if len(new_password) < 6:
+            return jsonify({"success": False, "message": "Құпия сөз кемінде 6 таңба болсын"})
 
-    cur.close()
-    conn.close()
+        new_hash = generate_password_hash(new_password)
 
-    if not updated:
-        return jsonify({"success": False, "message": "Қате"})
+        conn = get_db()
+        cur = conn.cursor()
 
-    return jsonify({"success": True, "message": "Пароль жаңартылды"})
+        cur.execute("""
+            UPDATE users
+            SET password_hash = %s
+            WHERE email = %s AND nickname = %s
+            RETURNING id
+        """, (new_hash, email, nickname))
+
+        updated = cur.fetchone()
+        conn.commit()
+
+        if not updated:
+            return jsonify({"success": False, "message": "Аккаунт табылмады"})
+
+        return jsonify({"success": True, "message": "Пароль жаңартылды"})
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return jsonify({"success": False, "message": "Сервер қатесі: " + str(e)})
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 
 if __name__ == "__main__":
