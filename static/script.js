@@ -203,3 +203,175 @@ document.addEventListener("click", function (e) {
     // иконканы жаңарту
   }
 });
+function renderForgotStep(step) {
+  return `
+    <div class="steps">
+      <div class="step ${step >= 1 ? "active" : ""}">
+        <div class="step-circle">1</div>
+        <p>Аккаунтты табу</p>
+      </div>
+      <div class="step ${step >= 2 ? "active" : ""}">
+        <div class="step-circle">2</div>
+        <p>Email тексеру</p>
+      </div>
+      <div class="step ${step >= 3 ? "active" : ""}">
+        <div class="step-circle">3</div>
+        <p>Жаңа құпия сөз</p>
+      </div>
+    </div>
+  `;
+}
+
+function showForgotPassword() {
+  document.querySelector(".daily-tip").innerHTML =
+    "💡 Құпия сөзіңізді қалпына келтіру арқылы аккаунтыңызды қорғаңыз!";
+
+  document.querySelector(".form-box").innerHTML = `
+    <a class="back-link" onclick="location.reload()">
+      <i data-lucide="arrow-left"></i>
+      Кіруге оралу
+    </a>
+
+    <h2>Құпия сөзді қалпына келтіру</h2>
+    <p class="subtitle">
+      Аккаунтыңызды табу үшін Email және никнеймді енгізіңіз
+    </p>
+
+    ${renderForgotStep(1)}
+
+    <form id="forgotForm">
+      <label>Email</label>
+      <div class="input-box">
+        <i data-lucide="mail"></i>
+        <input id="forgotEmail" type="email" placeholder="Email енгізіңіз" />
+      </div>
+
+      <label>Никнейм (логин)</label>
+      <div class="input-box">
+        <i data-lucide="user"></i>
+        <input id="forgotUsername" type="text" placeholder="Мысалы: irradaz" />
+      </div>
+
+      <button type="submit" class="login-btn">
+        Аккаунтты табу
+      </button>
+    </form>
+
+    <p class="help-text">
+      Аккаунтыңызды есіңізге түсіре алмайсыз ба?
+      <a href="#">Қолдау қызметіне</a> жазыңыз
+    </p>
+  `;
+
+  lucide.createIcons();
+
+  document
+    .getElementById("forgotForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("forgotEmail").value.trim();
+      const username = document.getElementById("forgotUsername").value.trim();
+
+      if (!email || !username) {
+        alert("Email және никнеймді енгізіңіз");
+        return;
+      }
+
+      const res = await fetch("/api/forgot/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, username }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        showNewPassword(email, username);
+      } else {
+        alert(data.message);
+      }
+    });
+}
+
+function showNewPassword(email, username) {
+  document.querySelector(".form-box").innerHTML = `
+    <a class="back-link" onclick="location.reload()">
+      <i data-lucide="arrow-left"></i>
+      Кіруге оралу
+    </a>
+
+    <h2>Жаңа құпия сөз орнату</h2>
+    <p class="subtitle">
+      Аккаунтыңыз табылды. Енді жаңа құпия сөз енгізіңіз
+    </p>
+
+    ${renderForgotStep(3)}
+
+    <form id="resetPasswordForm">
+      <label>Жаңа құпия сөз</label>
+      <div class="input-box">
+        <i data-lucide="lock"></i>
+        <input id="newPassword" type="password" placeholder="Жаңа құпия сөз" />
+        <i data-lucide="eye-off" class="toggle-password"></i>
+      </div>
+
+      <label>Құпия сөзді қайталаңыз</label>
+      <div class="input-box">
+        <i data-lucide="lock"></i>
+        <input id="confirmNewPassword" type="password" placeholder="Қайта енгізіңіз" />
+        <i data-lucide="eye-off" class="toggle-password"></i>
+      </div>
+
+      <button type="submit" class="login-btn">
+        Құпия сөзді сақтау
+      </button>
+    </form>
+  `;
+
+  lucide.createIcons();
+
+  document
+    .getElementById("resetPasswordForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const newPassword = document.getElementById("newPassword").value.trim();
+      const confirmNewPassword = document
+        .getElementById("confirmNewPassword")
+        .value.trim();
+
+      if (!newPassword || !confirmNewPassword) {
+        alert("Жаңа құпия сөзді енгізіңіз");
+        return;
+      }
+
+      if (newPassword !== confirmNewPassword) {
+        alert("Құпия сөздер сәйкес емес");
+        return;
+      }
+
+      const res = await fetch("/api/forgot/reset", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          username,
+          newPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert(data.message);
+        location.reload();
+      } else {
+        alert(data.message);
+      }
+    });
+}
