@@ -163,6 +163,14 @@ function showRegister() {
         alert("Барлық жолдарды толтырыңыз");
         return;
       }
+      const loginRegex = /^[a-zA-Z0-9_]+$/;
+
+      if (!loginRegex.test(login)) {
+        alert(
+          "Логин тек ағылшын әріптерімен, сандармен және _ белгісімен жазылуы керек",
+        );
+        return;
+      }
 
       if (password !== confirmPassword) {
         alert("Құпия сөздер сәйкес емес");
