@@ -401,3 +401,113 @@ function saveProfile() {
 }
 
 document.addEventListener("DOMContentLoaded", loadProfileFromStorage);
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem("user") || "{}");
+}
+
+function setCurrentUser(user) {
+  localStorage.setItem("user", JSON.stringify(user));
+}
+
+function loadProfileFromStorage() {
+  const user = getCurrentUser();
+
+  const fullname = user.fullname || user.name || "Қонақ";
+  const email = user.email || "Email жоқ";
+  const username = user.username || "";
+  const nickname = user.nickname || "";
+  const createdAt = user.created_at || "Тіркелген уақыты жоқ";
+  const avatar = user.avatar || "";
+
+  document.getElementById("profileName").innerText = fullname;
+  document.getElementById("profileEmail").innerText = email;
+  document.getElementById("profileFullname").innerText = fullname;
+  document.getElementById("profileCreatedAt").innerText = createdAt;
+
+  document.getElementById("editFio").value = fullname === "Қонақ" ? "" : fullname;
+  document.getElementById("editUsername").value = username;
+  document.getElementById("editNickname").value = nickname;
+  document.getElementById("editEmail").value = email === "Email жоқ" ? "" : email;
+
+  if (avatar) {
+    document.getElementById("profileAvatar").style.backgroundImage = `url("${avatar}")`;
+  }
+
+  lucide.createIcons();
+}
+
+function editProfile() {
+  loadProfileFromStorage();
+  document.getElementById("profileForm").classList.add("active");
+}
+
+function cancelProfileEdit() {
+  document.getElementById("profileForm").classList.remove("active");
+}
+
+async function saveProfile() {
+  const user = getCurrentUser();
+
+  const updatedUser = {
+    id: user.id,
+    fullname: document.getElementById("editFio").value.trim(),
+    username: document.getElementById("editUsername").value.trim(),
+    nickname: document.getElementById("editNickname").value.trim(),
+    email: document.getElementById("editEmail").value.trim(),
+    avatar: user.avatar || ""
+  };
+
+  if (!updatedUser.id) {
+    alert("Алдымен аккаунтқа кіріңіз");
+    return;
+  }
+
+  if (!updatedUser.fullname || !updatedUser.username || !updatedUser.nickname || !updatedUser.email) {
+    alert("Барлық жолдарды толтырыңыз");
+    return;
+  }
+
+  const res = await fetch("/api/profile/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedUser),
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
+    setCurrentUser(data.user);
+    loadProfileFromStorage();
+    cancelProfileEdit();
+    alert(data.message);
+  } else {
+    alert(data.message);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  loadProfileFromStorage();
+
+  const avatarInput = document.getElementById("avatarInput");
+
+  if (avatarInput) {
+    avatarInput.addEventListener("change", async function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const user = getCurrentUser();
+        user.avatar = e.target.result;
+        setCurrentUser(user);
+
+        document.getElementById("profileAvatar").style.backgroundImage = `url("${user.avatar}")`;
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+});
