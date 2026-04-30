@@ -390,13 +390,10 @@
             formData.append("username", username);
             formData.append("password", password);
 
-            const res = await fetch(
-              "https://cybersaqshy.42web.io/simulator_login.php",
-              {
-                method: "POST",
-                body: formData,
-              },
-            );
+            const res = await fetch("/api/login", {
+              method: "POST",
+              body: formData,
+            });
 
             const text = await res.text();
             console.log("PHP response:", text);
