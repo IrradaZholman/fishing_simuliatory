@@ -388,7 +388,7 @@
 
           if (data.success) {
             localStorage.setItem("user", JSON.stringify(data.user));
-            indow.location.href = "/SIMULIATOR";
+            window.location.href = "/SIMULIATOR";
           } else {
             alert(data.message);
           }
