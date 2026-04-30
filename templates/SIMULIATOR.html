@@ -793,55 +793,82 @@
       </div>
 
       <div class="settings-container">
+        <!-- PROFILE -->
         <div class="settings-card profile-card">
-          <div class="section-title"><i data-lucide="user"></i> Профиль</div>
+          <div class="profile-card-top">
+            <div class="section-title">
+              <i data-lucide="user"></i>
+              Профиль
+            </div>
 
-          <div class="profile-edit-layout">
-            <div class="profile-photo-side">
+            <button class="settings-btn" onclick="editProfile()">
+              Профильді өзгерту
+            </button>
+          </div>
+
+          <div class="profile-view">
+            <div class="profile-avatar-wrap">
               <div class="settings-avatar"></div>
-
-              <button class="photo-change-btn">
-                <i data-lucide="upload"></i>
-                Суретті өзгерту
+              <button class="avatar-camera-btn">
+                <i data-lucide="camera"></i>
               </button>
             </div>
-            <div class="profile-form-side" id="profileForm">
-              <button class="settings-btn profile-btn" onclick="editProfile()">
-                Профильді өзгерту
+
+            <div class="profile-info">
+              <h3 id="profileName">Maks</h3>
+
+              <p>
+                <i data-lucide="mail"></i>
+                <span id="profileEmail">maksat.zholman@gmail.com</span>
+              </p>
+
+              <p>
+                <i data-lucide="user"></i>
+                Аты-жөні:
+                <span id="profileFullname">Maksat Zholman</span>
+              </p>
+
+              <p>
+                <i data-lucide="clock"></i>
+                Сайтқа тіркелген уақыты:
+                <span id="profileCreatedAt">2026-04-28 00:26:14</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="profile-edit-form" id="profileForm">
+            <div class="profile-form-row">
+              <label>Аты-жөні</label>
+              <input id="editFio" type="text" placeholder="Аты-жөніңіз" />
+            </div>
+
+            <div class="profile-form-row">
+              <label>Логин</label>
+              <input id="editUsername" type="text" placeholder="Логин" />
+            </div>
+
+            <div class="profile-form-row">
+              <label>Никнейм</label>
+              <input id="editNickname" type="text" placeholder="Никнейм" />
+            </div>
+
+            <div class="profile-form-row">
+              <label>Email</label>
+              <input id="editEmail" type="email" placeholder="Email" />
+            </div>
+
+            <div class="profile-edit-actions">
+              <button onclick="saveProfile()" class="save-profile-btn">
+                Сақтау
               </button>
-
-              <div class="profile-form-row">
-                <label>Логин</label>
-                <input id="editUsername" value="konak_user" />
-              </div>
-
-              <div class="profile-form-row">
-                <label>Nickname</label>
-                <input id="editNickname" value="Қонақ" />
-              </div>
-
-              <div class="profile-form-row">
-                <label>Email</label>
-                <input id="editEmail" value="maksat.zholman@gmail.com" />
-              </div>
-
-              <input id="editFio" type="hidden" value="Қонақ" />
-
-              <div class="profile-edit-actions">
-                <button onclick="saveProfile()" class="save-profile-btn">
-                  Сақтау
-                </button>
-                <button
-                  onclick="cancelProfileEdit()"
-                  class="cancel-profile-btn"
-                >
-                  Болдырмау
-                </button>
-              </div>
+              <button onclick="cancelProfileEdit()" class="cancel-profile-btn">
+                Болдырмау
+              </button>
             </div>
           </div>
         </div>
 
+        <!-- ACCOUNT -->
         <div class="settings-card">
           <div class="section-title">
             <i data-lucide="user"></i>
@@ -859,9 +886,11 @@
           </div>
         </div>
 
+        <!-- NOTIFICATIONS -->
         <div class="settings-card">
           <div class="section-title">
-            <i data-lucide="bell"></i> Хабарламалар
+            <i data-lucide="bell"></i>
+            Хабарламалар
           </div>
 
           <div class="row">
@@ -880,9 +909,11 @@
           </div>
         </div>
 
+        <!-- LANGUAGE -->
         <div class="settings-card">
           <div class="section-title">
-            <i data-lucide="globe"></i> Тіл және интерфейс
+            <i data-lucide="globe"></i>
+            Тіл және интерфейс
           </div>
 
           <div class="row">
