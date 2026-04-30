@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMULIATOR | Құжаттар</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        background: #f5f7fb;
+        color: #111827;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 1180px;
+        min-height: 900px;
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+
+      .top {
+        padding: 24px 32px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #16a34a;
+        text-decoration: none;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+
+      .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .tab {
+        height: 52px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        background: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .tab.active {
+        background: #16a34a;
+        color: #fff;
+        border-color: #16a34a;
+      }
+
+      .content {
+        padding: 36px 42px;
+      }
+
+      .doc-header {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .doc-icon {
+        width: 72px;
+        height: 72px;
+        background: #dcfce7;
+        color: #16a34a;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 30px;
+      }
+
+      .subtitle {
+        margin: 8px 0 0;
+        color: #4b5563;
+        font-size: 15px;
+      }
+
+      .update {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #4b5563;
+        font-size: 14px;
+        margin-bottom: 30px;
+      }
+
+      .intro {
+        color: #374151;
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .section {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 14px;
+        padding: 16px 0;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .num {
+        width: 30px;
+        height: 30px;
+        background: #16a34a;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+
+      .section h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      .section p {
+        margin: 5px 0;
+        color: #374151;
+        font-size: 15px;
+        line-height: 1.5;
+      }
+
+      .support {
+        margin-top: 28px;
+        padding: 18px;
+        border-radius: 12px;
+        border: 1px solid #bbf7d0;
+        background: #f0fdf4;
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+
+      .support-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: #dcfce7;
+        color: #16a34a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .support strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 16px;
+      }
+
+      .support p {
+        margin: 0;
+        color: #4b5563;
+      }
+
+      .support a {
+        color: #16a34a;
+        font-weight: 700;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 20px;
+        color: #6b7280;
+        font-size: 13px;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @media (max-width: 700px) {
+        .page {
+          padding: 10px;
+        }
+
+        .card {
+          min-height: auto;
+        }
+
+        .content {
+          padding: 24px;
+        }
+
+        .tabs {
+          grid-template-columns: 1fr;
+        }
+
+        .doc-header {
+          align-items: flex-start;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="card">
+        <div class="top">
+          <a href="index.html" class="back">
+            <i data-lucide="arrow-left"></i>
+            Кері қайту
+          </a>
+
+          <div class="tabs">
+            <button class="tab active" onclick="showTab('terms', this)">
+              Пайдаланушы келісімі
+            </button>
+            <button class="tab" onclick="showTab('privacy', this)">
+              Құпиялылық саясаты
+            </button>
+          </div>
+        </div>
+
+        <div class="content">
+          <div id="terms">
+            <div class="doc-header">
+              <div class="doc-icon">
+                <i data-lucide="file-check" size="38"></i>
+              </div>
+              <div>
+                <h1>Пайдаланушы келісімі</h1>
+                <p class="subtitle">
+                  Бұл келісім сіздің құқықтарыңыз бен міндеттеріңізді анықтайды
+                </p>
+              </div>
+            </div>
+
+            <div class="update">
+              <i data-lucide="calendar-days" size="18"></i>
+              Соңғы жаңарту: 3 маусым 2026 ж.
+            </div>
+
+            <p class="intro">
+              Осы Пайдаланушы келісімі (бұдан әрі – “Келісім”) SIMULIATOR-ды
+              (бұдан әрі – “симулятор”) пайдаланған кезде сіз бен веб-платформа
+              әкімшілігі арасындағы құқықтық қатынастарды реттейді.
+            </p>
+
+            <div class="section">
+              <div class="num">1</div>
+              <div>
+                <h3>Жалпы ережелер</h3>
+                <p>
+                  1.1. Осы Келісімге веб-платформаны пайдаланатын барлық
+                  тұлғалар автоматты түрде келісім береді.
+                </p>
+                <p>
+                  1.2. Егер сіз Келісімнің шарттарымен келіспесеңіз,
+                  веб-платформаны пайдалануды тоқтатуыңызды сұраймыз.
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">2</div>
+              <div>
+                <h3>Платформаның мақсаты</h3>
+                <p>
+                  2.1. SIMULIATOR – киберқауіпсіздік дағдыларын дамытуға
+                  арналған оқу-симуляциялық веб-платформа.
+                </p>
+                <p>
+                  2.2. Платформа арқылы фишинг, жалған сайттар, SMS және
+                  қоңырауларды ажырату дағдыларыңызды жетілдіре аласыз.
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">3</div>
+              <div>
+                <h3>Пайдаланушы міндеттері</h3>
+                <p>3.1. Веб-платформаны заңды мақсатта пайдалану.</p>
+                <p>3.2. Басқа пайдаланушылардың құқықтарын бұзбау.</p>
+                <p>
+                  3.3. Жалған ақпарат таратпау және жүйеге зиян келтіретін
+                  әрекеттер жасамау.
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">4</div>
+              <div>
+                <h3>Веб-платформа әкімшілігінің құқықтары</h3>
+                <p>
+                  4.1. Веб-платформаның жұмысын жақсарту үшін қажетті өзгертулер
+                  енгізу.
+                </p>
+                <p>
+                  4.2. Қолданушылардың ережелерді бұзу жағдайында тіркелгісін
+                  шектеу немесе жою.
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">5</div>
+              <div>
+                <h3>Жауапкершілікті шектеу</h3>
+                <p>
+                  5.1. Веб-платформада берілген ақпарат тек білім беру
+                  мақсатында ұсынылады.
+                </p>
+                <p>
+                  5.2. Веб-платформа әкімшілігі пайдаланушы әрекеттерінің
+                  нәтижесіне жауап бермейді.
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">6</div>
+              <div>
+                <h3>Қорытынды ережелер</h3>
+                <p>6.1. Осы келісім кез келген уақытта өзгертілуі мүмкін.</p>
+                <p>
+                  6.2. Өзгерістер енгізілген жағдайда олар сайтта жарияланады
+                  және жарияланған сәттен бастап күшіне енеді.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div id="privacy" class="hidden">
+            <div class="doc-header">
+              <div class="doc-icon">
+                <i data-lucide="lock" size="38"></i>
+              </div>
+              <div>
+                <h1>Құпиялылық саясаты</h1>
+                <p class="subtitle">
+                  Сіздің деректеріңізді қорғау – біздің басты міндетіміз
+                </p>
+              </div>
+            </div>
+
+            <div class="update">
+              <i data-lucide="calendar-days" size="18"></i>
+              Соңғы жаңарту: 3 маусым 2026 ж.
+            </div>
+
+            <p class="intro">
+              Бұл құпиялылық саясаты SIMULIATOR-да жиналатын, пайдаланылатын
+              және қорғалатын ақпарат туралы мәлімет береді.
+            </p>
+
+            <div class="section">
+              <div class="num">1</div>
+              <div>
+                <h3>Жиналатын ақпарат</h3>
+                <p>
+                  1.1. Тіркелген кезде сізден аты-жөніңіз, логин, email және
+                  құпия сөз сұралады.
+                </p>
+                <p>
+                  1.2. Веб-платформаны пайдалану барысында жүйе техникалық
+                  деректерді (IP мекенжайы, браузер түрі, құрылғы туралы
+                  ақпарат) жинауы мүмкін.
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">2</div>
+              <div>
+                <h3>Ақпаратты пайдалану мақсаттары</h3>
+                <p>2.1. Веб-платформаның жұмысын қамтамасыз ету.</p>
+                <p>2.2. Пайдаланушы тәжірибесін жақсарту.</p>
+                <p>
+                  2.3. Қауіпсіздікті қамтамасыз ету және заң талаптарын орындау.
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">3</div>
+              <div>
+                <h3>Ақпаратты қорғау</h3>
+                <p>
+                  3.1. Біз сіздің деректеріңізді рұқсатсыз қолжетімділіктен,
+                  өзгертуден немесе жойылудан қорғаймыз.
+                </p>
+                <p>3.2. Деректер қауіпсіздік шаралары арқылы сақталады.</p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">4</div>
+              <div>
+                <h3>Ақпаратты үшінші тұлғаларға беру</h3>
+                <p>
+                  4.1. Біз сіздің жеке деректеріңізді үшінші тұлғаларға
+                  сатпаймыз және таратпаймыз.
+                </p>
+                <p>
+                  4.2. Заң талап еткен жағдайларды қоспағанда, деректер тек
+                  серіктестерге қызмет көрсету үшін берілуі мүмкін.
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">5</div>
+              <div>
+                <h3>Пайдаланушы құқықтары</h3>
+                <p>
+                  5.1. Сіз өз деректеріңізге қол жеткізе аласыз, оларды түзете
+                  аласыз немесе жоюды сұрай аласыз.
+                </p>
+                <p>
+                  5.2. Ол үшін
+                  <b style="color: green">irrada_baqytzhanqyzy</b> инстаграм
+                  әлеуметтік желісіне жазыңыз.
+                </p>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="num">6</div>
+              <div>
+                <h3>Қорытынды ережелер</h3>
+                <p>6.1. Бұл саясат кез келген уақытта жаңартылуы мүмкін.</p>
+                <p>
+                  6.2. Жаңартулар сайтта жарияланады және жарияланған сәттен
+                  бастап күшіне енеді.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="support">
+            <div class="support-icon">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <div>
+              <strong>Сұрақтарыңыз бар ма?</strong>
+              <p>
+                Бізге хабарлама жазыңыз, біз сізге көмектесуге дайынбыз!:
+                <a href="mailto:irrada.zholman@gmail.com"
+                  >irrada.zholman@gmail.com</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">© 2026 CYBERSAQSHY. Барлық құқықтар қорғалған.</div>
+      </div>
+    </div>
+
+    <script>
+      lucide.createIcons();
+
+      function showTab(id, btn) {
+        document.getElementById("terms").classList.add("hidden");
+        document.getElementById("privacy").classList.add("hidden");
+
+        document.getElementById(id).classList.remove("hidden");
+
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        btn.classList.add("active");
+        lucide.createIcons();
+      }
+    </script>
+  </body>
+</html>
