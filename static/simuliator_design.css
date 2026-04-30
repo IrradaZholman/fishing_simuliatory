@@ -3215,14 +3215,6 @@ select {
   border: 1px solid #e5e7eb;
 }
 .header-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: #e5e7eb;
-  background-size: cover;
-  background-position: center;
-}
-.header-avatar {
   width: 38px;
   height: 38px;
   border-radius: 50%;
