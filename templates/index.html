@@ -276,7 +276,9 @@
         <!-- LEFT -->
         <div class="login-left">
           <div class="brand">
-            <div class="brand-icon"><img src="{{ url_for('static', filename='logo.png') }}"></div>
+            <div class="brand-icon">
+              <img src="{{ url_for('static', filename='logo.png') }}" />
+            </div>
             <div>
               <h1>SIMULIATOR</h1>
               <p>Фишинг симуляторы</p>
@@ -291,7 +293,7 @@
             </p>
           </div>
 
-          <img src="{{ url_for('static', filename='login-security.png') }}">
+          <img src="{{ url_for('static', filename='login-security.png') }}" />
 
           <div class="daily-tip">
             💡 Күн сайын кіріп, өз дағдыларыңызды жақсартыңыз!
@@ -363,6 +365,12 @@
 
     <script>
       lucide.createIcons();
+      const savedUsername = localStorage.getItem("savedUsername");
+
+      if (savedUsername) {
+        document.getElementById("email").value = savedUsername;
+        document.getElementById("rememberMe").checked = true;
+      }
 
       document
         .getElementById("loginForm")
@@ -393,7 +401,16 @@
             console.log("Server response:", data);
 
             if (data.success) {
+              const rememberMe = document.getElementById("rememberMe").checked;
+
               localStorage.setItem("user", JSON.stringify(data.user));
+
+              if (rememberMe) {
+                localStorage.setItem("savedUsername", username);
+              } else {
+                localStorage.removeItem("savedUsername");
+              }
+
               window.location.href = "/SIMULIATOR";
             } else {
               alert(data.message);
@@ -458,7 +475,7 @@
 
             <div class="options">
               <label class="remember">
-                <input id="agree" type="checkbox" />
+                <input id="rememberMe" type="checkbox" />
                 <span>Мен <a href="terms.html">пайдаланушы келісіміне</a> және <a href="terms.html">құпиялық саясатымен</a> келісемін</span>
               </label>
             </div>
@@ -515,6 +532,14 @@
               alert("Құпия сөздер сәйкес емес");
               return;
             }
+            const agree = document.getElementById("agree").checked;
+
+            if (!agree) {
+              alert(
+                "Пайдаланушы келісімі мен құпиялық саясатымен келісуіңіз керек",
+              );
+              return;
+            }
 
             const res = await fetch("/api/register", {
               method: "POST",
@@ -552,7 +577,8 @@
             eye.setAttribute("data-lucide", "eye-off"); // жабық көз
           }
 
-          lucide.createIcons(); // иконканы жаңарту
+          lucide.createIcons();
+          // иконканы жаңарту
         }
       });
     </script>
