@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CyberSafe Header</title>
+    <link rel="stylesheet" href="simuliator_design.css" />
+    <script src="simuliator_js_code.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <!-- Жоғары жақ HEADER-і -->
+    <header class="navbar">
+      <div class="logo">
+        <div class="icon">
+          <img src="logo.png" alt="logo" />
+        </div>
+        <div class="text">
+          <span class="title">SIMULIATOR</span>
+          <span class="subtitle">Симулятор</span>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a href="#">Симулятор</a>
+        <a href="#">Үйрену</a>
+        <a href="#">Қолдану нұсқаулығы</a>
+        <a href="#">Шығу</a>
+      </nav>
+
+      <div class="right">
+        <div class="streak">🔥 7 күн қатарынан</div>
+        <div class="xp">⭐ 2450 XP</div>
+        <div class="avatar">
+          <img src="avatar.png" onerror="this.style.display = 'none'" />
+        </div>
+      </div>
+    </header>
+    <!-- Жоғары жақ HEADER-і -->
+
+    <!-- Сол жақ МЕНЮ-і -->
+    <div class="sidebar">
+      <ul class="menu-list">
+        <li onclick="openDashboard()" class="active">
+          <i data-lucide="layout-dashboard"></i> Dashboard
+        </li>
+        <li onclick="openMail()"><i data-lucide="mail"></i>Пошта</li>
+        <li onclick="openFake()"><i data-lucide="globe"></i> Жалған сайттар</li>
+        <li onclick="openSMS()">
+          <i data-lucide="message-square-text"></i> SMS-хабарламалар
+        </li>
+        <li onclick="openCall()"><i data-lucide="phone"></i> Хабарласулар</li>
+        <li onclick="openPerformed()">
+          <i data-lucide="check-circle"></i> Орындалғандар
+        </li>
+        <li onclick="openSettings()">
+          <i data-lucide="settings"></i> Баптаулар
+        </li>
+        <li onclick="openHelp()"><i data-lucide="help-circle"></i> Көмек</li>
+      </ul>
+      <div class="level-card">
+        <div class="level-title">Деңгейің</div>
+
+        <div class="level-number">5-деңгей</div>
+
+        <div class="progress">
+          <div class="progress-bar"></div>
+        </div>
+
+        <div class="xp-text">750 / 1000 XP</div>
+
+        <div class="divider"></div>
+
+        <div class="tip">💡 Күн сайын кіріп, өз дағдыларыңды жақсарт!</div>
+      </div>
+    </div>
+    <!-- Сол жақ МЕНЮ-і -->
+    <div id="dashboardPage" class="dashboard" style="display: flex">
+      <div class="dashboard-content">
+        <h1>Сәлем, Maks! 👋</h1>
+        <p class="dash-subtitle">
+          Бүгін де жаңа білім алып, дағдыларыңды жетілдір!
+        </p>
+
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <i data-lucide="star"></i>
+            </div>
+            <div>
+              <p>XP ұпайлары</p>
+              <h2>2450 XP</h2>
+              <span>Барлық уақытта жиналған</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <i data-lucide="clipboard-list"></i>
+            </div>
+            <div>
+              <p>Орындалған тапсырмалар</p>
+              <h2>18</h2>
+              <span>Барлық тапсырмалар саны</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon orange">
+              <i data-lucide="flame"></i>
+            </div>
+            <div>
+              <p>Үздік серия</p>
+              <h2>7 күн</h2>
+              <span>Күн қатарынан кірдің</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <i data-lucide="bar-chart-3"></i>
+            </div>
+            <div>
+              <p>Ағымдағы деңгей</p>
+              <h2>5-деңгей</h2>
+              <span>Келесі деңгейге: 250 XP</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-card">
+          <h3>Тапсырмалар бойынша прогресс</h3>
+
+          <div class="progress-area">
+            <div class="big-circle">
+              <div>
+                <h2>75%</h2>
+                <p>жалпы прогресс</p>
+              </div>
+            </div>
+
+            <div class="progress-list">
+              <div class="progress-row">
+                <span> <i data-lucide="mail"></i> Пошта </span>
+                <div class="line"><div style="width: 100%"></div></div>
+                <b>100%</b>
+              </div>
+
+              <div class="progress-row">
+                <span> <i data-lucide="globe"></i> Жалған сайттар </span>
+                <div class="line"><div style="width: 83%"></div></div>
+                <b>83%</b>
+              </div>
+
+              <div class="progress-row yellow">
+                <span>
+                  <i data-lucide="message-square"></i> SMS-хабарламалар
+                </span>
+                <div class="line"><div style="width: 66%"></div></div>
+                <b>66%</b>
+              </div>
+
+              <div class="progress-row red-line">
+                <span> <i data-lucide="phone"></i> Хабарласулар </span>
+                <div class="line"><div style="width: 50%"></div></div>
+                <b>50%</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ОРТАҢҒЫ БӨЛІК пошта -->
+    <div id="mailPage" class="wrapper">
+      <!-- LEFT -->
+      <div class="left-column">
+        <div class="header">
+          <h2>Бүгінгі жағдай</h2>
+          <div class="header-row">
+            <div class="date">11 мамыр 2025</div>
+            <div class="badge">Орташа деңгей</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="bank">
+              <img
+                src="https://cdn-irec.r-99.com/sites/default/files/product-images/399872/ZSLoIZBv17uE7ldrExYRg.jpeg"
+              />
+              <div class="bank-info">
+                <strong>Kaspi Bank</strong>
+                <span>support@kaspi-secure.com</span>
+              </div>
+            </div>
+            <div class="time">10:42</div>
+          </div>
+
+          <div class="title">Картаңыз уақытша бұғатталды</div>
+
+          <div class="text">
+            Кімге: сіз<br /><br />
+            Құрметті клиент!<br />
+            Қауіпсіздік жүйесі сіздің картаңызда күмәнді әрекет анықтады.<br /><br />
+            Картаңызды қайта ашу үшін төмендегі сілтемеге өтіп, деректеріңізді
+            растаңыз.<br /><br />
+            Егер 24 сағат ішінде растау жасалмаса, картаңыз толық бұғатталады.
+          </div>
+
+          <a class="link" href="#">https://kaspi-secure-login.xyz/verify</a>
+
+          <div class="text">Kaspi Bank қауіпсіздік қызметі</div>
+        </div>
+
+        <div class="card actions">
+          <div class="btn red">
+            <i class="fa-regular fa-circle-xmark"></i>
+            Сілтемеге өтемін
+          </div>
+
+          <div class="btn blue">
+            <i class="fa-regular fa-circle-check"></i>
+            URL мекенжайын тексеремін
+          </div>
+
+          <div class="btn green">
+            <i class="fa-regular fa-circle-question"></i>
+            Хатты елемеймін
+          </div>
+
+          <div class="btn purple">
+            <i class="fa-regular fa-clock"></i>
+            Досымнан немесе ата-анамнан сұраймын
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="right-column">
+        <!-- 1.БАСТАПҚЫ НҰСҚАУЛЫҚ -->
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">
+            <img src="doc_komekshi.png" alt="" />
+          </div>
+          <h3>Фишингті анықта</h3>
+          <p>
+            Бұл хат қауіпсіз бе, әлде қауіпті ме?<br />
+            Дұрыс әрекетті таңдаңыз.<br />
+            Жауаптан кейін сіз жаңа білім аласыз.
+          </p>
+          <div class="empty-arrow">
+            <img src="strelka.png" alt="" />
+          </div>
+        </div>
+
+        <div id="rightContent" class="mail-result-panel" style="display: none">
+          <!-- ТҮСІНДІРМЕ -->
+          <div class="mail-info-card">
+            <div class="mail-info-header">
+              <div class="mail-info-icon purple">
+                <i data-lucide="shield-check"></i>
+              </div>
+              <h3>Түсіндірме</h3>
+            </div>
+
+            <p class="mail-info-sub">Фишинг хаттардың белгілері:</p>
+
+            <ul class="mail-info-list">
+              <li>🔒 Жіберуші мекенжайы күмәнді</li>
+              <li>❗ Жеке деректерді сұрайды</li>
+              <li>🔗 Қауіпті немесе жалған сілтеме бар</li>
+              <li>⏰ “Шұғыл әрекет жасаңыз” деп асықтырады</li>
+            </ul>
+          </div>
+
+          <!-- КЕҢЕС -->
+          <div class="mail-info-card">
+            <div class="mail-info-header">
+              <div class="mail-info-icon green">
+                <i data-lucide="check"></i>
+              </div>
+              <h3>Кеңес</h3>
+            </div>
+
+            <p class="mail-info-sub">Хатты ашқанда әрқашан тексеріңіз!</p>
+
+            <ul class="mail-check-list">
+              <li>✔ Жіберуші email-і дұрыс па?</li>
+              <li>✔ Сілтеме ресми сайтқа апара ма?</li>
+              <li>✔ Құпиясөз немесе карта сұрап тұр ма?</li>
+            </ul>
+          </div>
+
+          <!-- ПРОГРЕСС -->
+          <div class="mail-info-card mail-progress-card">
+            <h3>Прогресің</h3>
+
+            <div class="mail-progress-wrap">
+              <div class="mail-circle">
+                <span>20%</span>
+              </div>
+
+              <div class="mail-progress-info">
+                <div class="mail-progress-text">
+                  Дұрыс жауаптар: <b>1 / 5</b>
+                </div>
+                <div class="mail-progress-bar">
+                  <div class="mail-progress-fill"></div>
+                </div>
+                <small>Әлі 4 тапсырма қалды</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- rightContent -->
+      </div>
+    </div>
+
+    <div id="fakePage" class="fake-sites" style="display: none">
+      <div class="fake-main">
+        <div class="fake-header">
+          <div>
+            <h2>Жалған сайтты анықта</h2>
+            <p>Дұрыс сілтемені таңдаңыз</p>
+          </div>
+          <span class="task-badge">1 / 5 тапсырма</span>
+        </div>
+
+        <div class="fake-info">
+          <i data-lucide="shield-check"></i>
+          <div>
+            <b>Фишингтік сайттар сіздің жеке деректеріңізді ұрлауы мүмкін.</b>
+            <p>Дұрыс мекенжайды таңдап, интернетте қауіпсіз болыңыз!</p>
+          </div>
+        </div>
+
+        <label class="site-option fake-option" data-answer="fake">
+          <div class="option-top">
+            <input type="radio" name="site" value="fake" />
+            <i data-lucide="triangle-alert" class="site-icon danger-icon"></i>
+            <span class="url">https://kaspi-secure-login.xyz</span>
+            <span class="tag red">Жалған сайт</span>
+          </div>
+
+          <div class="explain">
+            <b>Неге жалған?</b>
+            <p>Домен атауы ресми емес және күмәнді қосымшалар қолданған.</p>
+          </div>
+        </label>
+
+        <label class="site-option real-option" data-answer="real">
+          <div class="option-top">
+            <input type="radio" name="site" value="real" />
+            <i data-lucide="lock-keyhole" class="site-icon safe-icon"></i>
+            <span class="url">https://kaspi.kz</span>
+            <span class="tag green">Дұрыс сайт</span>
+          </div>
+
+          <div class="explain">
+            <b>Неге дұрыс?</b>
+            <p>Бұл Kaspi-дің ресми сайты. Домен атауы дұрыс және HTTPS бар.</p>
+          </div>
+        </label>
+
+        <button class="check-btn" onclick="showFakeResult()">
+          Жауабымды тексеру
+        </button>
+
+        <div class="fake-tip">
+          <i data-lucide="lightbulb"></i>
+          <b>Кеңес:</b>
+          <span>Сайт мекенжайын әрқашан мұқият тексеріңіз.</span>
+        </div>
+      </div>
+
+      <div class="fake-sidebar">
+        <div id="emptyState2" class="empty-state2">
+          <div class="empty-icon2">
+            <img src="doc_komekshi.png" alt="" />
+          </div>
+          <h3>Дұрыс сайтты анықтаңыз</h3>
+          <p>
+            Қай сайт сенімді екенін таңдаңыз.<br />Жауап берген соң түсіндірме
+            ашылады.
+          </p>
+          <div class="empty-arrow2">
+            <img src="strelka.png" alt="" />
+          </div>
+        </div>
+
+        <div id="rightContent2" style="display: none">
+          <div class="info-card2">
+            <div class="info-header2">
+              <div class="icon purple2"><i data-lucide="shield-check"></i></div>
+              <h3>Түсіндірме</h3>
+            </div>
+            <p class="info-sub">Жалған сайттардың белгілері:</p>
+            <ul class="info-list">
+              <li>🔒 Домен атауында қате немесе ұқсас әріптер</li>
+              <li>❗ HTTPS жоқ немесе жалған сертификат</li>
+              <li>🔗 Қысқа немесе күмәнді сілтеме</li>
+              <li>🎨 Дизайн айырмашылығы немесе сапасыздық</li>
+            </ul>
+          </div>
+
+          <div class="info-card2">
+            <div class="info-header2">
+              <div class="icon green2"><i data-lucide="check"></i></div>
+              <h3>Кеңес</h3>
+            </div>
+            <p class="info-sub2">Әрқашан ресми сайтты тексеріңіз!</p>
+            <ul class="check-list2">
+              <li>✔ Браузерде 🔒 белгісі бар ма?</li>
+              <li>✔ https:// арқылы бастала ма?</li>
+              <li>✔ Домен атауы дұрыс жазылған ба?</li>
+            </ul>
+          </div>
+
+          <div class="info-card2 progress-block2">
+            <h3>Прогресің</h3>
+            <div class="progress-wrap2">
+              <div class="circle2"><span>20%</span></div>
+              <div>
+                <div class="progress-text2">Дұрыс жауаптар: <b>1 / 5</b></div>
+                <div class="progress-bar2">
+                  <div class="progress-fill2"></div>
+                </div>
+                <small>Әлі 4 тапсырма қалды</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="smsPage" class="sms" style="display: none">
+      <div class="sms-content">
+        <h2>SMS-хабарламалар тізімі</h2>
+        <div id="smsList" class="sms-list"></div>
+      </div>
+    </div>
+    <div id="smsTaskPage" style="display: none" class="task-page">
+      <!-- LEFT -->
+      <div class="left-block">
+        <div class="back-link" onclick="goBackToList()">
+          <span class="arrow">←</span>
+          Барлық тапсырмалар
+        </div>
+        <div class="card">
+          <h2>SMS-хабарламаларға тапсырма</h2>
+
+          <div class="section">
+            <div class="green-title">Мақсаты:</div>
+            SMS-хабарламаның фишингтік екенін анықтап, күмәнді белгілерді табу.
+          </div>
+
+          <div class="section">
+            <div class="green-title">Тапсырма шарттары:</div>
+
+            <div class="step">
+              <div class="step-number">1</div>
+              SMS-хабарламаны мұқият оқып шығыңыз.
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              Бұл хабарлама фишингтік пе, жоқ па — соны анықтаңыз.
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              Күдікті белгілерді (сілтеме, қате жазылым, қысым көрсету, т.б.)
+              табыңыз.
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              Өз жауабыңызды түсіндіріп жазыңыз.
+            </div>
+          </div>
+
+          <div class="tip">
+            <i data-lucide="lightbulb" class="tip-icon"></i>
+
+            <div class="tip-content">
+              <b>Кеңес:</b><br />
+              Фишингтік хабарламаларда әдетте күмәнді сілтеме, қателер, қысым
+              немесе жеке ақпаратты сұрау болады.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- RIGHT -->
+      <div class="phone-wrapper">
+        <div class="nav left" onclick="prevSlide()">❮</div>
+        <div class="phone">
+          <div class="notch"></div>
+
+          <div class="header2">
+            <div class="back"></div>
+            <div class="phone-title">Kaspi</div>
+          </div>
+
+          <div class="chat" id="chatBox">
+            <div class="message" id="smsText">
+              Kaspi: картаңыз бұғатталды.<br />
+              Шешім алу үшін сілтемеге өтіңіз:<br /><br />
+              <a href="#">kaspi-secure-login.xyz</a>
+            </div>
+          </div>
+
+          <div class="input-area">
+            <div class="camera"></div>
+            <input id="messageInput" type="text" placeholder="SMS хабарлама" />
+            <div class="send" onclick="sendMessage()"></div>
+          </div>
+        </div>
+        <div class="nav right" onclick="nextSlide()">❯</div>
+        <div class="dots">
+          <span class="dot active" onclick="changeSlide(0)"></span>
+          <span class="dot" onclick="changeSlide(1)"></span>
+          <span class="dot" onclick="changeSlide(2)"></span>
+          <span class="dot" onclick="changeSlide(3)"></span>
+        </div>
+      </div>
+    </div>
+
+    <div id="callPage" class="calls-page" style="display: none">
+      <div class="calls-container">
+        <div class="calls-top">
+          <div>
+            <h2 class="calls-title">
+              <i data-lucide="phone-call"></i>
+              Хабарласулар
+            </h2>
+
+            <div class="calls-tabs">
+              <button class="active">Барлық қоңыраулар</button>
+              <button>Кіріс қоңыраулар</button>
+              <button>Шығыс қоңыраулар</button>
+              <button>Жіберілмеген қоңыраулар</button>
+            </div>
+          </div>
+
+          <div class="calls-progress-card">
+            <p>Бүгінгі прогресс</p>
+            <h3>+150 XP</h3>
+            <div>
+              <span class="good">Дұрыс: 5</span>
+              <span class="bad">Қате: 2</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calls-table-card">
+          <table class="calls-table">
+            <thead>
+              <tr>
+                <th>Телефон нөмірі</th>
+                <th>Оператор</th>
+                <th>Кім қоңырау шалған</th>
+                <th>Күні мен уақыты</th>
+                <th>Қоңырау түрі</th>
+                <th>Жауабыңыз</th>
+                <th>XP</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>
+                  <div class="phone-cell">
+                    <i data-lucide="phone"></i>
+                    <span>8 777 415 87 56</span>
+                  </div>
+                </td>
+                <td><span class="op beeline"></span> Beeline</td>
+                <td>Азамат Серіков</td>
+                <td>23.05.2025, 14:32</td>
+                <td>
+                  <div class="call-type incoming">
+                    <i data-lucide="phone-incoming"></i>
+                    <span>Кіріс қоңырау</span>
+                  </div>
+                </td>
+                <td>
+                  <button class="answer correct">Дұрыс нөмір</button
+                  ><button class="answer">Қате нөмір</button>
+                </td>
+                <td class="xp-star">⭐ +25 XP</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="phone-cell">
+                    <i data-lucide="phone"></i>
+                    <span>8 701 223 45 67</span>
+                  </div>
+                </td>
+                <td><span class="op kcell"></span> Kcell</td>
+                <td>Айдана Мұратқызы</td>
+                <td>23.05.2025, 13:15</td>
+                <td>
+                  <div class="call-type incoming">
+                    <i data-lucide="phone-incoming"></i>
+                    <span>Кіріс қоңырау</span>
+                  </div>
+                </td>
+                <td>
+                  <button class="answer correct">Дұрыс нөмір</button
+                  ><button class="answer">Қате нөмір</button>
+                </td>
+                <td class="xp-star">⭐ +25 XP</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="phone-cell">
+                    <i data-lucide="phone"></i>
+                    <span>8 747 987 65 43</span>
+                  </div>
+                </td>
+                <td><span class="op tele2"></span> Tele2</td>
+                <td>Нұрлан Қуатов</td>
+                <td>23.05.2025, 11:48</td>
+                <td>
+                  <div class="call-type outgoing">
+                    <i data-lucide="phone-outgoing"></i>
+                    <span>Шығыс қоңырау</span>
+                  </div>
+                </td>
+                <td>
+                  <button class="answer">Дұрыс нөмір</button
+                  ><button class="answer wrong">Қате нөмір</button>
+                </td>
+                <td>—</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="phone-cell">
+                    <i data-lucide="phone"></i>
+                    <span>8 702 554 12 98</span>
+                  </div>
+                </td>
+                <td><span class="op altel"></span> Altel</td>
+                <td>Мейіржан Төлеуов</td>
+                <td>22.05.2025, 19:27</td>
+                <td>
+                  <div class="call-type incoming">
+                    <i data-lucide="phone-incoming"></i>
+                    <span>Кіріс қоңырау</span>
+                  </div>
+                </td>
+                <td>
+                  <button class="answer correct">Дұрыс нөмір</button
+                  ><button class="answer">Қате нөмір</button>
+                </td>
+                <td class="xp-star">⭐ +25 XP</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="calls-footer">
+            <div class="pagination">
+              <button>‹</button>
+              <button class="active">1</button>
+              <button>2</button>
+              <button>3</button>
+              <button>...</button>
+              <button>10</button>
+              <button>›</button>
+            </div>
+
+            <div class="rows-select">
+              Беттегі жазбалар:
+              <select>
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="performedPage" class="performed-page" style="display: none">
+      <div class="performed-container">
+        <div class="performed-header">
+          <div class="performed-header-icon">
+            <i data-lucide="circle-check"></i>
+          </div>
+          <div>
+            <h2>Орындалғандар</h2>
+            <p>Орындалған тапсырмалар мен нәтижеңізді қараңыз.</p>
+          </div>
+        </div>
+
+        <div class="performed-card">
+          <div class="performed-left">
+            <div class="performed-icon blue"><i data-lucide="mail"></i></div>
+            <div>
+              <h3>Пошта</h3>
+              <p>Тапсырмалар саны: 6</p>
+            </div>
+          </div>
+          <div class="performed-circle green"><span>100%</span></div>
+          <div class="performed-xp">
+            <p>Жиналған XP</p>
+            <b>⭐ 120 XP</b>
+          </div>
+          <div class="performed-date">
+            <p>Соңғы орындалған</p>
+            <b>23.05.2025, 15:42</b>
+          </div>
+          <i data-lucide="chevron-right" class="performed-arrow"></i>
+        </div>
+
+        <div class="performed-card">
+          <div class="performed-left">
+            <div class="performed-icon purple"><i data-lucide="globe"></i></div>
+            <div>
+              <h3>Жалған сайттар</h3>
+              <p>Тапсырмалар саны: 6</p>
+            </div>
+          </div>
+          <div class="performed-circle green-83"><span>83%</span></div>
+          <div class="performed-xp">
+            <p>Жиналған XP</p>
+            <b>⭐ 100 XP</b>
+          </div>
+          <div class="performed-date">
+            <p>Соңғы орындалған</p>
+            <b>22.05.2025, 19:18</b>
+          </div>
+          <i data-lucide="chevron-right" class="performed-arrow"></i>
+        </div>
+
+        <div class="performed-card">
+          <div class="performed-left">
+            <div class="performed-icon green-box">
+              <i data-lucide="message-square"></i>
+            </div>
+            <div>
+              <h3>SMS-хабарламалар</h3>
+              <p>Тапсырмалар саны: 6</p>
+            </div>
+          </div>
+          <div class="performed-circle yellow"><span>66%</span></div>
+          <div class="performed-xp">
+            <p>Жиналған XP</p>
+            <b>⭐ 80 XP</b>
+          </div>
+          <div class="performed-date">
+            <p>Соңғы орындалған</p>
+            <b>21.05.2025, 11:05</b>
+          </div>
+          <i data-lucide="chevron-right" class="performed-arrow"></i>
+        </div>
+
+        <div class="performed-card">
+          <div class="performed-left">
+            <div class="performed-icon orange"><i data-lucide="phone"></i></div>
+            <div>
+              <h3>Хабарласулар</h3>
+              <p>Тапсырмалар саны: 6</p>
+            </div>
+          </div>
+          <div class="performed-circle red-circle"><span>50%</span></div>
+          <div class="performed-xp">
+            <p>Жиналған XP</p>
+            <b>⭐ 60 XP</b>
+          </div>
+          <div class="performed-date">
+            <p>Соңғы орындалған</p>
+            <b>20.05.2025, 16:30</b>
+          </div>
+          <i data-lucide="chevron-right" class="performed-arrow"></i>
+        </div>
+      </div>
+    </div>
+
+    <div id="settingsPage" class="settings" style="display: none">
+      <div class="settings-title">
+        <i data-lucide="settings"></i>
+        <span>Баптаулар</span>
+      </div>
+
+      <div class="settings-container">
+        <div class="settings-card">
+          <div class="section-title"><i data-lucide="user"></i> Профиль</div>
+
+          <div class="settings-profile">
+            <div class="settings-avatar"></div>
+
+            <div class="profile-info">
+              <h3>Maks</h3>
+              <p><i data-lucide="mail"></i> maksat.zholman@gmail.com</p>
+              <p><i data-lucide="user-round"></i> ????</p>
+              <p><i data-lucide="clock"></i> Соңғы кіру: 2026-04-28 00:26:14</p>
+            </div>
+
+            <button class="settings-btn profile-btn">Профильді өзгерту</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="section-title">
+            <i data-lucide="lock"></i> Қауіпсіздік
+          </div>
+
+          <div class="row">
+            <span>Құпия сөз</span>
+            <button class="settings-btn">Өзгерту</button>
+          </div>
+
+          <div class="row">
+            <span>Email мекенжайын өзгерту</span>
+            <button class="settings-btn">Өзгерту</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="section-title">
+            <i data-lucide="bell"></i> Хабарламалар
+          </div>
+
+          <div class="row">
+            <span>Жүйелік хабарламалар</span>
+            <div class="switch active"></div>
+          </div>
+
+          <div class="row">
+            <span>Жаңа хат туралы ескерту</span>
+            <div class="switch active"></div>
+          </div>
+
+          <div class="row">
+            <span>Жүйе жаңартулары</span>
+            <div class="switch"></div>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="section-title">
+            <i data-lucide="globe"></i> Тіл және интерфейс
+          </div>
+
+          <div class="row">
+            <span>Тіл</span>
+            <select>
+              <option>Қазақша</option>
+              <option>Русский</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <span>Тақырып</span>
+            <select>
+              <option>Қараңғы (Dark)</option>
+              <option>Жарық (Light)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-card full">
+          <div class="section-title">
+            <i data-lucide="user-round"></i> Аккаунт
+          </div>
+
+          <div class="row">
+            <span>Аккаунт деректерін жүктеу</span>
+            <button class="settings-btn">Жүктеу</button>
+          </div>
+
+          <div class="row">
+            <span>Аккаунтты уақытша өшіру</span>
+            <button class="settings-btn red">Өшіру</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="helpPage" class="help-page" style="display: none">
+      <div class="help-chat">
+        <div class="help-header">
+          <div class="ai-icon">
+            <i data-lucide="bot"></i>
+          </div>
+          <div>
+            <h2>AI-ассистент</h2>
+            <p>Сұрағыңызға жауап беремін. Қандай көмек керек?</p>
+          </div>
+        </div>
+
+        <div class="chat-area">
+          <div class="message user">
+            <p>Фишингтік хатты қалай анықтауға болады?</p>
+            <span>14:32 ✓✓</span>
+          </div>
+
+          <div class="message bot">
+            <i data-lucide="bot"></i>
+            <div>
+              <p>Фишингтік хатты анықтаудың бірнеше негізгі белгілері бар:</p>
+              <ul>
+                <li>Жіберуші мекенжайы күмәнді болады.</li>
+                <li>Шұғыл әрекет етуіңізді сұрайды.</li>
+                <li>Сілтеме басқа сайтқа бағыттайды.</li>
+                <li>Жеке ақпарат сұрайды.</li>
+              </ul>
+              <span>14:32</span>
+            </div>
+          </div>
+
+          <div class="message user">
+            <p>Қауіпті сілтемені қалай тексеруге болады?</p>
+            <span>14:33 ✓✓</span>
+          </div>
+
+          <div class="message bot">
+            <i data-lucide="bot"></i>
+            <div>
+              <p>Сілтемені тексерудің бірнеше тәсілі бар:</p>
+              <ul>
+                <li>Сілтеменің үстіне курсорды апарыңыз.</li>
+                <li>Сайттың домен атауын мұқият қараңыз.</li>
+                <li>Google Safe Browsing немесе VirusTotal қолданыңыз.</li>
+                <li>Қысқартылған сілтемелерге сақ болыңыз.</li>
+              </ul>
+              <span>14:33</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-input">
+          <i data-lucide="paperclip"></i>
+          <input type="text" placeholder="Сұрағыңызды жазыңыз..." />
+          <button><i data-lucide="send"></i></button>
+        </div>
+      </div>
+
+      <div class="history-side">
+        <div class="history-card">
+          <div class="history-title">
+            <h3>Хаттар тарихы</h3>
+            <i data-lucide="eye" onclick="toggleHistory()"></i>
+          </div>
+
+          <div id="historyList">
+            <div class="history-item">
+              <i data-lucide="message-square"></i>
+              <div>
+                <b>Фишингтік хатты қалай анық...</b>
+                <p>Фишингтік хатты анықтаудың...</p>
+              </div>
+              <span>14:32</span>
+              <i data-lucide="trash-2"></i>
+            </div>
+
+            <div class="history-item">
+              <i data-lucide="message-square"></i>
+              <div>
+                <b>Қауіпті сілтемені қалай текс...</b>
+                <p>Сілтемені тексерудің бірнеше...</p>
+              </div>
+              <span>14:20</span>
+              <i data-lucide="trash-2"></i>
+            </div>
+
+            <div class="history-item">
+              <i data-lucide="message-square"></i>
+              <div>
+                <b>SMS арқылы келетін қауіпті...</b>
+                <p>SMS арқылы келетін қауіптер...</p>
+              </div>
+              <span>12:45</span>
+              <i data-lucide="trash-2"></i>
+            </div>
+
+            <div class="history-item">
+              <i data-lucide="message-square"></i>
+              <div>
+                <b>Жалған сайттарды қалай ту...</b>
+                <p>Жалған сайттарды анықтау үшін...</p>
+              </div>
+              <span>11:30</span>
+              <i data-lucide="trash-2"></i>
+            </div>
+          </div>
+
+          <button class="clear-history">
+            <i data-lucide="trash-2"></i>
+            Барлық тарихты тазарту
+          </button>
+        </div>
+
+        <div id="hiddenBox" class="hidden-box" style="display: none">
+          <i data-lucide="eye-off"></i>
+          <p>Тарих жасырылған</p>
+          <button onclick="toggleHistory()">Тарихты көрсету</button>
+        </div>
+      </div>
+    </div>
+    <!-- ОРТАҢҒЫ БӨЛІК -->
+    <!-- Астыңғы БӨЛІК -->
+    <!-- Астыңғы БӨЛІК -->
+  </body>
+</html>
