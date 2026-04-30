@@ -352,11 +352,52 @@ async function saveProfile() {
 }
 
 document.addEventListener("DOMContentLoaded", loadProfileFromStorage);
+function cancelProfileEdit() {
+  document.getElementById("profileForm").classList.remove("active");
+}
+function loadProfileFromStorage() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const fullname = user.fullname || user.name || "Maks";
+  const email = user.email || "maksat.zholman@gmail.com";
+  const username = user.username || "";
+  const nickname = user.nickname || "";
+  const createdAt = user.created_at || "2026-04-28 00:26:14";
+
+  document.getElementById("profileName").innerText = fullname;
+  document.getElementById("profileFullname").innerText = fullname;
+  document.getElementById("profileEmail").innerText = email;
+  document.getElementById("profileCreatedAt").innerText = createdAt;
+
+  document.getElementById("editFio").value = fullname;
+  document.getElementById("editUsername").value = username;
+  document.getElementById("editNickname").value = nickname;
+  document.getElementById("editEmail").value = email;
+}
 
 function editProfile() {
+  loadProfileFromStorage();
   document.getElementById("profileForm").classList.add("active");
 }
 
 function cancelProfileEdit() {
   document.getElementById("profileForm").classList.remove("active");
 }
+
+function saveProfile() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  user.fullname = document.getElementById("editFio").value.trim();
+  user.name = user.fullname;
+  user.username = document.getElementById("editUsername").value.trim();
+  user.nickname = document.getElementById("editNickname").value.trim();
+  user.email = document.getElementById("editEmail").value.trim();
+
+  localStorage.setItem("user", JSON.stringify(user));
+
+  loadProfileFromStorage();
+  cancelProfileEdit();
+  alert("Профиль сәтті өзгертілді!");
+}
+
+document.addEventListener("DOMContentLoaded", loadProfileFromStorage);
