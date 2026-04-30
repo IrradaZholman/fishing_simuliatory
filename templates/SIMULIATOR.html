@@ -175,149 +175,149 @@
     </div>
     <!-- ОРТАҢҒЫ БӨЛІК пошта -->
     <div id="mailPage" class="wrapper">
-      <!-- LEFT -->
-      <div class="left-column">
-        <div class="header">
-          <h2>Бүгінгі жағдай</h2>
-          <div class="header-row">
-            <div class="date">11 мамыр 2025</div>
-            <div class="badge">Орташа деңгей</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="bank">
-              <img
-                src="https://cdn-irec.r-99.com/sites/default/files/product-images/399872/ZSLoIZBv17uE7ldrExYRg.jpeg"
-              />
-              <div class="bank-info">
-                <strong>Kaspi Bank</strong>
-                <span>support@kaspi-secure.com</span>
-              </div>
-            </div>
-            <div class="time">10:42</div>
-          </div>
-
-          <div class="title">Картаңыз уақытша бұғатталды</div>
-
-          <div class="text">
-            Кімге: сіз<br /><br />
-            Құрметті клиент!<br />
-            Қауіпсіздік жүйесі сіздің картаңызда күмәнді әрекет анықтады.<br /><br />
-            Картаңызды қайта ашу үшін төмендегі сілтемеге өтіп, деректеріңізді
-            растаңыз.<br /><br />
-            Егер 24 сағат ішінде растау жасалмаса, картаңыз толық бұғатталады.
-          </div>
-
-          <a class="link" href="#">https://kaspi-secure-login.xyz/verify</a>
-
-          <div class="text">Kaspi Bank қауіпсіздік қызметі</div>
-        </div>
-
-        <div class="card actions">
-          <div class="btn red">
-            <i data-lucide="x-circle"></i>
-            Сілтемеге өтемін
-          </div>
-
-          <div class="btn blue">
-            <i data-lucide="check-circle"></i>
-            URL мекенжайын тексеремін
-          </div>
-
-          <div class="btn green">
-            <i data-lucide="shield-check"></i>
-            Хатты елемеймін
-          </div>
-
-          <div class="btn purple">
-            <i data-lucide="clock"></i>
-            Досымнан немесе ата-анамнан сұраймын
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT -->
-      <div class="right-column">
-        <!-- 1.БАСТАПҚЫ НҰСҚАУЛЫҚ -->
-        <div id="emptyState" class="empty-state">
-          <div class="empty-icon">
-            <img src="{{ url_for('static', filename='doc_komekshi.png') }}" />
-          </div>
-          <h3>Фишингті анықта</h3>
-          <p>
-            Бұл хат қауіпсіз бе, әлде қауіпті ме?<br />
-            Дұрыс әрекетті таңдаңыз.<br />
-            Жауаптан кейін сіз жаңа білім аласыз.
-          </p>
-          <div class="empty-arrow">
-            <img src="{{ url_for('static', filename='strelka.png') }}" />
-          </div>
-        </div>
-
-        <div id="rightContent" class="mail-result-panel" style="display: none">
-          <!-- ТҮСІНДІРМЕ -->
-          <div class="mail-info-card">
-            <div class="mail-info-header">
-              <div class="mail-info-icon purple">
-                <i data-lucide="shield-check"></i>
-              </div>
-              <h3>Түсіндірме</h3>
-            </div>
-
-            <p class="mail-info-sub">Фишинг хаттардың белгілері:</p>
-
-            <ul class="mail-info-list">
-              <li>🔒 Жіберуші мекенжайы күмәнді</li>
-              <li>❗ Жеке деректерді сұрайды</li>
-              <li>🔗 Қауіпті немесе жалған сілтеме бар</li>
-              <li>⏰ “Шұғыл әрекет жасаңыз” деп асықтырады</li>
-            </ul>
-          </div>
-
-          <!-- КЕҢЕС -->
-          <div class="mail-info-card">
-            <div class="mail-info-header">
-              <div class="mail-info-icon green">
-                <i data-lucide="check"></i>
-              </div>
-              <h3>Кеңес</h3>
-            </div>
-
-            <p class="mail-info-sub">Хатты ашқанда әрқашан тексеріңіз!</p>
-
-            <ul class="mail-check-list">
-              <li>✔ Жіберуші email-і дұрыс па?</li>
-              <li>✔ Сілтеме ресми сайтқа апара ма?</li>
-              <li>✔ Құпиясөз немесе карта сұрап тұр ма?</li>
-            </ul>
-          </div>
-
-          <!-- ПРОГРЕСС -->
-          <div class="mail-info-card mail-progress-card">
-            <h3>Прогресің</h3>
-
-            <div class="mail-progress-wrap">
-              <div class="mail-circle">
-                <span>20%</span>
-              </div>
-
-              <div class="mail-progress-info">
-                <div class="mail-progress-text">
-                  Дұрыс жауаптар: <b>1 / 5</b>
-                </div>
-                <div class="mail-progress-bar">
-                  <div class="mail-progress-fill"></div>
-                </div>
-                <small>Әлі 4 тапсырма қалды</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- rightContent -->
+  <!-- LEFT -->
+  <div class="left-column">
+    <div class="header">
+      <h2 id="mailSituationTitle">Бүгінгі жағдай</h2>
+      <div class="header-row">
+        <div class="date" id="mailDate">11 мамыр 2025</div>
+        <div class="badge" id="mailLevel">Орташа деңгей</div>
       </div>
     </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="bank">
+          <img
+            id="mailLogo"
+            src="https://cdn-irec.r-99.com/sites/default/files/product-images/399872/ZSLoIZBv17uE7ldrExYRg.jpeg"
+          />
+
+          <div class="bank-info">
+            <strong id="mailSenderName">Kaspi Bank</strong>
+            <span id="mailSenderEmail">support@kaspi-secure.com</span>
+          </div>
+        </div>
+
+        <div class="time" id="mailTime">10:42</div>
+      </div>
+
+      <div class="title" id="mailTitle">Картаңыз уақытша бұғатталды</div>
+
+      <div class="text" id="mailBody">
+        Кімге: сіз<br /><br />
+        Құрметті клиент!<br />
+        Қауіпсіздік жүйесі сіздің картаңызда күмәнді әрекет анықтады.<br /><br />
+        Картаңызды қайта ашу үшін төмендегі сілтемеге өтіп, деректеріңізді
+        растаңыз.<br /><br />
+        Егер 24 сағат ішінде растау жасалмаса, картаңыз толық бұғатталады.
+      </div>
+
+      <a class="link" href="#" id="mailLink">
+        https://kaspi-secure-login.xyz/verify
+      </a>
+
+      <div class="text" id="mailFooter">Kaspi Bank қауіпсіздік қызметі</div>
+    </div>
+
+    <div class="card actions" id="mailActions">
+      <div class="btn red" onclick="checkMailAnswer('click_link')">
+        <i data-lucide="x-circle"></i>
+        <span id="actionClickLink">Сілтемеге өтемін</span>
+      </div>
+
+      <div class="btn blue" onclick="checkMailAnswer('check_url')">
+        <i data-lucide="check-circle"></i>
+        <span id="actionCheckUrl">URL мекенжайын тексеремін</span>
+      </div>
+
+      <div class="btn green" onclick="checkMailAnswer('ignore')">
+        <i data-lucide="shield-check"></i>
+        <span id="actionIgnore">Хатты елемеймін</span>
+      </div>
+
+      <div class="btn purple" onclick="checkMailAnswer('ask_adult')">
+        <i data-lucide="clock"></i>
+        <span id="actionAskAdult">Досымнан немесе ата-анамнан сұраймын</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-column">
+    <div id="emptyState" class="empty-state">
+      <div class="empty-icon">
+        <img src="{{ url_for('static', filename='doc_komekshi.png') }}" />
+      </div>
+
+      <h3>Фишингті анықта</h3>
+
+      <p>
+        Бұл хат қауіпсіз бе, әлде қауіпті ме?<br />
+        Дұрыс әрекетті таңдаңыз.<br />
+        Жауаптан кейін сіз жаңа білім аласыз.
+      </p>
+
+      <div class="empty-arrow">
+        <img src="{{ url_for('static', filename='strelka.png') }}" />
+      </div>
+    </div>
+
+    <div id="rightContent" class="mail-result-panel" style="display: none">
+      <div class="mail-info-card">
+        <div class="mail-info-header">
+          <div class="mail-info-icon purple">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <h3>Түсіндірме</h3>
+        </div>
+
+        <p class="mail-info-sub" id="mailExplanationTitle">
+          Фишинг хаттардың белгілері:
+        </p>
+
+        <ul class="mail-info-list" id="mailExplanationList"></ul>
+      </div>
+
+      <div class="mail-info-card">
+        <div class="mail-info-header">
+          <div class="mail-info-icon green">
+            <i data-lucide="check"></i>
+          </div>
+          <h3>Кеңес</h3>
+        </div>
+
+        <p class="mail-info-sub" id="mailAdviceTitle">
+          Хатты ашқанда әрқашан тексеріңіз!
+        </p>
+
+        <ul class="mail-check-list" id="mailAdviceList"></ul>
+      </div>
+
+      <div class="mail-info-card mail-progress-card">
+        <h3>Прогресің</h3>
+
+        <div class="mail-progress-wrap">
+          <div class="mail-circle">
+            <span id="mailProgressPercent">20%</span>
+          </div>
+
+          <div class="mail-progress-info">
+            <div class="mail-progress-text">
+              Дұрыс жауаптар: <b id="mailCorrectCount">0 / 5</b>
+            </div>
+
+            <div class="mail-progress-bar">
+              <div class="mail-progress-fill" id="mailProgressFill"></div>
+            </div>
+
+            <small id="mailLeftText">Әлі 5 тапсырма қалды</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
     <div id="fakePage" class="fake-sites" style="display: none">
       <div class="fake-main">
