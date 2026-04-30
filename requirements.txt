@@ -1,6 +1,4 @@
 Flask
 gunicorn
-requests
-pymysql
-werkzeug
 psycopg2-binary
+werkzeug
