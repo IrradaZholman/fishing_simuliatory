@@ -25,21 +25,6 @@
       align-items: center;
       justify-content: center;
     }
-
-    /* CARD */
-    .login-card {
-      width: 95%;
-      max-width: 1050px;
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
-    }
-
-    /* LEFT */
     .login-left {
       background: linear-gradient(135deg, #f0fdf4, #f8fffb);
       padding: 40px;
@@ -102,14 +87,6 @@
       border-radius: 10px;
       font-size: 13px;
     }
-
-    /* RIGHT */
-    .login-right {
-      padding: 40px;
-      display: flex;
-      justify-content: center;
-    }
-
     .form-box {
       width: 100%;
       max-width: 500px;
@@ -270,6 +247,27 @@
         font-size: 18px;
       }
     }
+    .login-card {
+      width: 95%;
+      max-width: 1050px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+
+      height: 90vh; /* 👈 ОСЫ */
+    }
+    .login-right {
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+
+      overflow-y: auto; /* 👈 форма ішіне скролл */
+    }
   </style>
 
   <body>
@@ -278,31 +276,22 @@
         <!-- LEFT -->
         <div class="login-left">
           <div class="brand">
-            <div class="brand-icon">
-              <img
-                src="{{ url_for('static', filename='logo.png') }}"
-                alt="logo"
-              />
-            </div>
+            <div class="brand-icon"><img src="logo.png" alt="logo" /></div>
             <div>
               <h1>SIMULIATOR</h1>
-              <p>Киберқауіпсіздік симуляторы</p>
+              <p>Фишинг симуляторы</p>
             </div>
           </div>
 
           <div class="left-text">
             <h2>Қауіпсіздік дағдыларыңды<br />дамыт – болашақты қорға!</h2>
             <p>
-              Фишинг, жалған сайттар, SMS және қоңырауларды<br />ажырата
+              Фишинг, жалған сайттар, SMS және қоңырауларды<br />ажыратуды
               үйреніңіз
             </p>
           </div>
 
-          <img
-            class="security-img"
-            src="{{ url_for('static', filename='login-security.png') }}"
-            alt="security"
-          />
+          <img class="security-img" src="login-security.png" alt="security" />
 
           <div class="daily-tip">
             💡 Күн сайын кіріп, өз дағдыларыңызды жақсартыңыз!
@@ -335,7 +324,7 @@
                   type="password"
                   placeholder="Құпия сөзіңізді енгізіңіз"
                 />
-                <i data-lucide="eye-off" class="eye"></i>
+                <i data-lucide="eye-off" class="eye toggle-password"></i>
               </div>
 
               <div class="options">
@@ -363,7 +352,10 @@
               <small>Тіркелусіз жүйені көріп шығыңыз</small>
             </button>
 
-            <p class="register">Аккаунтыңыз жоқ па? <a href="#">Тіркелу</a></p>
+            <p class="register">
+              Аккаунтыңыз жоқ па?
+              <a href="#" onclick="showRegister()">Тіркелу</a>
+            </p>
           </div>
         </div>
       </div>
@@ -386,28 +378,28 @@
           }
 
           try {
-            const formData = new FormData();
-            formData.append("username", username);
-            formData.append("password", password);
-
             const res = await fetch("/api/login", {
               method: "POST",
-              body: formData,
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                username: username,
+                password: password,
+              }),
             });
 
-            const text = await res.text();
-            console.log("PHP response:", text);
-
-            const data = JSON.parse(text);
+            const data = await res.json();
+            console.log("Server response:", data);
 
             if (data.success) {
               localStorage.setItem("user", JSON.stringify(data.user));
-              window.location.href = "/SIMULIATOR";
+              window.location.href = "SIMULIATOR.html";
             } else {
               alert(data.message);
             }
           } catch (error) {
-            alert("JS немесе PHP қатесі: " + error.message);
+            alert("Сервер қатесі: " + error.message);
             console.error(error);
           }
         });
@@ -421,8 +413,129 @@
           }),
         );
 
-        window.location.href = "/SIMULIATOR";
+        window.location.href = "SIMULIATOR.html";
       }
+
+      function showRegister() {
+        document.querySelector(".form-box").innerHTML = `
+    <h2>Тіркелу</h2>
+    <p class="subtitle">
+      Жаңа аккаунт құрып, симуляторды пайдалана бастаңыз
+    </p>
+
+    <form id="registerForm">
+      <label>Аты-жөніңіз</label>
+      <div class="input-box">
+        <i data-lucide="user"></i>
+        <input id="fullname" type="text" placeholder="Мысалы: Иррада Бақытжанқызы" />
+      </div>
+
+      <label>Логин (пайдаланушы аты)</label>
+      <div class="input-box">
+        <i data-lucide="user"></i>
+        <input id="regUsername" type="text" placeholder="Логин енгізіңіз" />
+      </div>
+
+      <label>Email</label>
+      <div class="input-box">
+        <i data-lucide="mail"></i>
+        <input id="regEmail" type="email" placeholder="Email енгізіңіз" />
+      </div>
+
+      <label>Құпия сөз</label>
+      <div class="input-box">
+        <i data-lucide="lock"></i>
+        <input id="regPassword" type="password" placeholder="Құпия сөз енгізіңіз" />
+        <i data-lucide="eye-off" class="toggle-password"></i>
+      </div>
+
+      <label>Құпия сөзді қайталаңыз</label>
+      <div class="input-box">
+        <i data-lucide="lock"></i>
+        <input id="confirmPassword" type="password" placeholder="Құпия сөзді қайта енгізіңіз" />
+        <i data-lucide="eye-off" class="toggle-password"></i>
+      </div>
+
+      <div class="options">
+        <label class="remember">
+          <input id="agree" type="checkbox" />
+          <span>Мен <a href="terms.html">пайдаланушы келісіміне</a> және <a href="terms.html">құпиялық саясатымен</a> келісемін</span>
+        </label>
+      </div>
+
+      <button type="submit" class="login-btn">
+        <i data-lucide="user-plus"></i>
+        Тіркелу
+      </button>
+    </form>
+
+    <div class="divider">
+      <span></span>
+      <p>немесе</p>
+      <span></span>
+    </div>
+
+    <p class="register">
+      Аккаунтыңыз бар ма?
+      <a href="#" onclick="location.reload()">Кіру</a>
+    </p>
+  `;
+
+        lucide.createIcons();
+
+        document
+          .getElementById("registerForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const fullname = document.getElementById("fullname").value.trim();
+            const username = document
+              .getElementById("regUsername")
+              .value.trim();
+            const email = document.getElementById("regEmail").value.trim();
+            const password = document
+              .getElementById("regPassword")
+              .value.trim();
+            const confirmPassword = document
+              .getElementById("confirmPassword")
+              .value.trim();
+
+            if (
+              !fullname ||
+              !username ||
+              !email ||
+              !password ||
+              !confirmPassword
+            ) {
+              alert("Барлық жолдарды толтырыңыз");
+              return;
+            }
+
+            if (password !== confirmPassword) {
+              alert("Құпия сөздер сәйкес емес");
+              return;
+            }
+
+            alert("Тіркелу сәтті өтті!");
+            location.reload();
+          });
+      }
+      document.addEventListener("click", function (e) {
+        if (e.target.closest(".toggle-password")) {
+          const eye = e.target.closest(".toggle-password");
+          const input = eye.parentElement.querySelector("input");
+
+          if (input.type === "password") {
+            input.type = "text";
+            eye.setAttribute("data-lucide", "eye"); // ашық көз
+          } else {
+            input.type = "password";
+            eye.setAttribute("data-lucide", "eye-off"); // жабық көз
+          }
+
+          lucide.createIcons(); // иконканы жаңарту
+        }
+      });
     </script>
   </body>
 </html>
