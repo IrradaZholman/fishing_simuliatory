@@ -363,42 +363,48 @@
     </div>
 
     <script>
-  lucide.createIcons();
+      lucide.createIcons();
 
-  document.getElementById("loginForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-    const username = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+          const username = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
 
-    try {
-      const res = await fetch("https://cybersaqshy.42web.io/simulator_login.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
+          const res = await fetch(
+            "https://cybersaqshy.42web.io/simulator_login.php",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username, password }),
+            },
+          );
 
-      const text = await res.text();
-      console.log("PHP response:", text);
+          const data = await res.json();
 
-      const data = JSON.parse(text);
+          if (data.success) {
+            localStorage.setItem("user", JSON.stringify(data.user));
+            indow.location.href = "/SIMULIATOR";
+          } else {
+            alert(data.message);
+          }
+        });
 
-      if (data.success) {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        window.location.href = "/SIMULIATOR";
-      } else {
-        alert(data.message);
+      function tryFree() {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: "Қонақ",
+            mode: "free",
+          }),
+        );
+
+        indow.location.href = "/SIMULIATOR";
       }
-    } catch (err) {
-      console.error(err);
-      alert("Кіру қатесі. Console-ды тексеріңіз.");
-    }
-  });
-
-  function tryFree() {
-    localStorage.setItem("user", JSON.stringify({ name: "Қонақ", mode: "free" }));
-    window.location.href = "/SIMULIATOR";
-  }
-</script>
+    </script>
   </body>
 </html>
