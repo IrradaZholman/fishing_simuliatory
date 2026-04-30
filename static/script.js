@@ -75,51 +75,51 @@ function showRegister() {
           </p>
 
           <form id="registerForm">
-            <label>Аты-жөніңіз</label>
-            <div class="input-box">
-              <i data-lucide="user"></i>
-              <input id="fullname" type="text" placeholder="Мысалы: Иррада Бақытжанқызы" />
-            </div>
+  <label>Аты-жөніңіз</label>
+  <div class="input-box">
+    <i data-lucide="user"></i>
+    <input id="fullname" type="text" placeholder="Мысалы: Иррада Бақытжанқызы" />
+  </div>
 
-            <label>Логин (пайдаланушы аты)</label>
-            <div class="input-box">
-              <i data-lucide="user"></i>
-              <input id="regUsername" type="text" placeholder="Логин енгізіңіз" />
-            </div>
+  <label>Email</label>
+  <div class="input-box">
+    <i data-lucide="mail"></i>
+    <input id="regEmail" type="email" placeholder="Email енгізіңіз" />
+  </div>
 
-            <label>Email</label>
-            <div class="input-box">
-              <i data-lucide="mail"></i>
-              <input id="regEmail" type="email" placeholder="Email енгізіңіз" />
-            </div>
+  <label>Құпия сөз</label>
+  <div class="input-box">
+    <i data-lucide="lock"></i>
+    <input id="regPassword" type="password" placeholder="Құпия сөз енгізіңіз" />
+    <i data-lucide="eye-off" class="toggle-password"></i>
+  </div>
 
-            <label>Құпия сөз</label>
-            <div class="input-box">
-              <i data-lucide="lock"></i>
-              <input id="regPassword" type="password" placeholder="Құпия сөз енгізіңіз" />
-              <i data-lucide="eye-off" class="toggle-password"></i>
-            </div>
+  <label>Құпия сөзді қайталаңыз</label>
+  <div class="input-box">
+    <i data-lucide="lock"></i>
+    <input id="confirmPassword" type="password" placeholder="Құпия сөзді қайта енгізіңіз" />
+    <i data-lucide="eye-off" class="toggle-password"></i>
+  </div>
 
-            <label>Құпия сөзді қайталаңыз</label>
-            <div class="input-box">
-              <i data-lucide="lock"></i>
-              <input id="confirmPassword" type="password" placeholder="Құпия сөзді қайта енгізіңіз" />
-              <i data-lucide="eye-off" class="toggle-password"></i>
-            </div>
+  <!-- 👇 НИКНЕЙМ СОҢЫНДА -->
+  <label>Никнейм (логин)</label>
+  <div class="input-box">
+    <i data-lucide="user"></i>
+    <input id="regUsername" type="text" placeholder="Мысалы: irradaz" />
+  </div>
 
-            <div class="options">
-              <label class="remember">
-                <input id="agree" type="checkbox" />
-                <span>Мен <a href="/terms">пайдаланушы келісіміне</a> және <a href="/terms">құпиялық саясатымен</a> келісемін</span>
-              </label>
-            </div>
+  <div class="options">
+    <label class="remember">
+      <input id="agree" type="checkbox" />
+      <span>Мен <a href="/terms">пайдаланушы келісіміне</a> келісемін</span>
+    </label>
+  </div>
 
-            <button type="submit" class="login-btn">
-              <i data-lucide="user-plus"></i>
-              Тіркелу
-            </button>
-          </form>
-
+  <button type="submit" class="login-btn">
+    <i data-lucide="user-plus"></i>
+    Тіркелу
+  </button>
+</form>
           <div class="divider">
             <span></span>
             <p>немесе</p>
