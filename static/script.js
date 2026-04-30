@@ -286,7 +286,7 @@ function showForgotPassword() {
       const email = document.getElementById("forgotEmail").value.trim();
       const nickname = document.getElementById("forgotUsername").value.trim();
 
-      if (!email || !username) {
+      if (!email || !nickname) {
         alert("Email және никнеймді енгізіңіз");
         return;
       }
@@ -302,14 +302,14 @@ function showForgotPassword() {
       const data = await res.json();
 
       if (data.success) {
-        showNewPassword(email, username);
+        showNewPassword(email, nickname);
       } else {
         alert(data.message);
       }
     });
 }
 
-function showNewPassword(email, username) {
+function showNewPassword(email, nickname) {
   document.querySelector(".form-box").innerHTML = `
     <a class="back-link" onclick="location.reload()">
       <i data-lucide="arrow-left"></i>
@@ -373,7 +373,7 @@ function showNewPassword(email, username) {
         },
         body: JSON.stringify({
           email,
-          username,
+          nickname,
           newPassword,
         }),
       });
