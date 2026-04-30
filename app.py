@@ -24,7 +24,7 @@ def api_login():
         conn = pymysql.connect(
             host="sql309.infinityfree.com",
             user="if0_41482304",
-            password="ЖАҢА_ПАРОЛЬ_ОСЫНДА",
+            password="B5SnfeLTaBWnaC",
             database="if0_41482304_cybersaqshy",
             charset="utf8mb4",
             cursorclass=pymysql.cursors.DictCursor
