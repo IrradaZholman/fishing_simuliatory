@@ -573,3 +573,98 @@ document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
   }
 });
+let mailTasks = [];
+let currentMailTaskIndex = 0;
+let correctMailAnswers = 0;
+
+async function loadDailyMailTasks() {
+  const res = await fetch("/api/mail/tasks");
+  const data = await res.json();
+
+  if (!data.success) {
+    alert("Пошта тапсырмалары жүктелмеді");
+    return;
+  }
+
+  mailTasks = data.tasks;
+  currentMailTaskIndex = 0;
+  correctMailAnswers = 0;
+
+  showMailTask(0);
+  updateMailProgress();
+}
+
+function showMailTask(index) {
+  const task = mailTasks[index];
+  if (!task) return;
+
+  document.getElementById("mailSituationTitle").innerText = task.situationTitle;
+  document.getElementById("mailDate").innerText = task.date;
+  document.getElementById("mailLevel").innerText = task.level;
+
+  document.getElementById("mailSenderName").innerText = task.senderName;
+  document.getElementById("mailSenderEmail").innerText = task.senderEmail;
+  document.getElementById("mailTime").innerText = task.time;
+
+  document.getElementById("mailTitle").innerText = task.title;
+
+  document.getElementById("mailBody").innerHTML =
+    "Кімге: сіз<br><br>" + task.body.replace(/\n/g, "<br>");
+
+  document.getElementById("mailLink").innerText = task.link;
+  document.getElementById("mailLink").href = "#";
+
+  document.getElementById("mailFooter").innerText = task.footer;
+
+  document.getElementById("emptyState").style.display = "flex";
+  document.getElementById("rightContent").style.display = "none";
+
+  if (typeof lucide !== "undefined") {
+    lucide.createIcons();
+  }
+}
+
+function checkMailAnswer(answer) {
+  const task = mailTasks[currentMailTaskIndex];
+  if (!task) return;
+
+  document.getElementById("emptyState").style.display = "none";
+  document.getElementById("rightContent").style.display = "flex";
+
+  document.getElementById("mailExplanationList").innerHTML =
+    task.explanation.map(item => `<li>🔎 ${item}</li>`).join("");
+
+  document.getElementById("mailAdviceList").innerHTML =
+    task.advice.map(item => `<li>✔ ${item}</li>`).join("");
+
+  if (answer === task.correct) {
+    correctMailAnswers++;
+  }
+
+  currentMailTaskIndex++;
+  updateMailProgress();
+
+  if (currentMailTaskIndex < mailTasks.length) {
+    setTimeout(() => {
+      showMailTask(currentMailTaskIndex);
+    }, 3500);
+  }
+}
+
+function updateMailProgress() {
+  const total = 5;
+  const percent = Math.round((correctMailAnswers / total) * 100);
+  const left = Math.max(total - currentMailTaskIndex, 0);
+
+  document.getElementById("mailProgressPercent").innerText = percent + "%";
+  document.getElementById("mailCorrectCount").innerText =
+    correctMailAnswers + " / " + total;
+
+  document.getElementById("mailProgressFill").style.width = percent + "%";
+  document.getElementById("mailLeftText").innerText =
+    left > 0 ? `Әлі ${left} тапсырма қалды` : "Бүгінгі тапсырмалар аяқталды";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadDailyMailTasks();
+});
