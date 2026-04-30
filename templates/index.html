@@ -276,7 +276,7 @@
         <!-- LEFT -->
         <div class="login-left">
           <div class="brand">
-            <div class="brand-icon"><img src="logo.png" alt="logo" /></div>
+            <div class="brand-icon"><img src="{{ url_for('static', filename='logo.png') }}"></div>
             <div>
               <h1>SIMULIATOR</h1>
               <p>Фишинг симуляторы</p>
@@ -291,7 +291,7 @@
             </p>
           </div>
 
-          <img class="security-img" src="login-security.png" alt="security" />
+          <img src="{{ url_for('static', filename='login-security.png') }}">
 
           <div class="daily-tip">
             💡 Күн сайын кіріп, өз дағдыларыңызды жақсартыңыз!
