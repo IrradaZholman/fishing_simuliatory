@@ -4,8 +4,14 @@
     <meta charset="UTF-8" />
     <title>CyberSafe Header</title>
     <link rel="stylesheet" href="simuliator_design.css" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='simuliator_design.css') }}">
-<script src="{{ url_for('static', filename='simuliator_js_code.js') }}" defer></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='simuliator_design.css') }}"
+    />
+    <script
+      src="{{ url_for('static', filename='simuliator_js_code.js') }}"
+      defer
+    ></script>
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -799,11 +805,7 @@
                 Суретті өзгерту
               </button>
             </div>
-            <div
-              class="profile-form-side"
-              id="profileForm"
-              style="display: none"
-            >
+            <div class="profile-form-side" id="profileForm">
               <button class="settings-btn profile-btn" onclick="editProfile()">
                 Профильді өзгерту
               </button>
