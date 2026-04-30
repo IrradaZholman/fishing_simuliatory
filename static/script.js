@@ -32,7 +32,6 @@ document
       });
 
       const data = await res.json();
-      console.log("Server response:", data);
 
       if (data.success) {
         const rememberMe = document.getElementById("rememberMe").checked;
@@ -45,6 +44,7 @@ document
           localStorage.removeItem("savedUsername");
         }
 
+        alert(data.message);
         window.location.href = "/SIMULIATOR";
       } else {
         alert(data.message);
@@ -143,6 +143,7 @@ function showRegister() {
     .getElementById("registerForm")
     .addEventListener("submit", async function (e) {
       e.preventDefault();
+
       const login = document.getElementById("regLogin").value.trim();
       const fullname = document.getElementById("fullname").value.trim();
       const email = document.getElementById("regEmail").value.trim();
@@ -163,6 +164,7 @@ function showRegister() {
         alert("Барлық жолдарды толтырыңыз");
         return;
       }
+
       const loginRegex = /^[a-zA-Z0-9_]+$/;
 
       if (!loginRegex.test(login)) {
@@ -176,6 +178,7 @@ function showRegister() {
         alert("Құпия сөздер сәйкес емес");
         return;
       }
+
       const agree = document.getElementById("agree").checked;
 
       if (!agree) {
@@ -183,49 +186,55 @@ function showRegister() {
         return;
       }
 
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullname: fullname,
-          username: login,
-          nickname: nickname,
-          email: email,
-          password: password,
-        }),
-      });
+      try {
+        const res = await fetch("/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullname: fullname,
+            username: login,
+            nickname: nickname,
+            email: email,
+            password: password,
+          }),
+        });
 
-      const data = await res.json();
+        const data = await res.json();
 
-      if (data.success) {
-        alert(data.message);
-        location.reload();
-      } else {
-        alert(data.message);
+        if (data.success) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          alert(data.message);
+          window.location.href = "/SIMULIATOR";
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        alert("Сервер қатесі: " + error.message);
+        console.error(error);
       }
     });
-}
-document.addEventListener("click", function (e) {
-  if (e.target.closest(".toggle-password")) {
-    const eye = e.target.closest(".toggle-password");
-    const input = eye.parentElement.querySelector("input");
 
-    if (input.type === "password") {
-      input.type = "text";
-      eye.setAttribute("data-lucide", "eye"); // ашық көз
-    } else {
-      input.type = "password";
-      eye.setAttribute("data-lucide", "eye-off"); // жабық көз
+  document.addEventListener("click", function (e) {
+    if (e.target.closest(".toggle-password")) {
+      const eye = e.target.closest(".toggle-password");
+      const input = eye.parentElement.querySelector("input");
+
+      if (input.type === "password") {
+        input.type = "text";
+        eye.setAttribute("data-lucide", "eye"); // ашық көз
+      } else {
+        input.type = "password";
+        eye.setAttribute("data-lucide", "eye-off"); // жабық көз
+      }
+
+      lucide.createIcons();
+      // иконканы жаңарту
     }
-
-    lucide.createIcons();
-    // иконканы жаңарту
-  }
-});
-function renderForgotStep(step) {
-  return `
+  });
+  function renderForgotStep(step) {
+    return `
     <div class="steps">
       <div class="step ${step >= 1 ? "active" : ""}">
         <div class="step-circle">1</div>
@@ -241,13 +250,13 @@ function renderForgotStep(step) {
       </div>
     </div>
   `;
-}
+  }
 
-function showForgotPassword() {
-  document.querySelector(".daily-tip").innerHTML =
-    "💡 Құпия сөзіңізді қалпына келтіру арқылы аккаунтыңызды қорғаңыз!";
+  function showForgotPassword() {
+    document.querySelector(".daily-tip").innerHTML =
+      "💡 Құпия сөзіңізді қалпына келтіру арқылы аккаунтыңызды қорғаңыз!";
 
-  document.querySelector(".form-box").innerHTML = `
+    document.querySelector(".form-box").innerHTML = `
     <a class="back-link" onclick="location.reload()">
       <i data-lucide="arrow-left"></i>
       Кіруге оралу
@@ -284,41 +293,41 @@ function showForgotPassword() {
     </p>
   `;
 
-  lucide.createIcons();
+    lucide.createIcons();
 
-  document
-    .getElementById("forgotForm")
-    .addEventListener("submit", async function (e) {
-      e.preventDefault();
+    document
+      .getElementById("forgotForm")
+      .addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-      const email = document.getElementById("forgotEmail").value.trim();
-      const nickname = document.getElementById("forgotUsername").value.trim();
+        const email = document.getElementById("forgotEmail").value.trim();
+        const nickname = document.getElementById("forgotUsername").value.trim();
 
-      if (!email || !nickname) {
-        alert("Email және никнеймді енгізіңіз");
-        return;
-      }
+        if (!email || !nickname) {
+          alert("Email және никнеймді енгізіңіз");
+          return;
+        }
 
-      const res = await fetch("/api/forgot/check", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, nickname }),
+        const res = await fetch("/api/forgot/check", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, nickname }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          showNewPassword(email, nickname);
+        } else {
+          alert(data.message);
+        }
       });
+  }
 
-      const data = await res.json();
-
-      if (data.success) {
-        showNewPassword(email, nickname);
-      } else {
-        alert(data.message);
-      }
-    });
-}
-
-function showNewPassword(email, nickname) {
-  document.querySelector(".form-box").innerHTML = `
+  function showNewPassword(email, nickname) {
+    document.querySelector(".form-box").innerHTML = `
     <a class="back-link" onclick="location.reload()">
       <i data-lucide="arrow-left"></i>
       Кіруге оралу
@@ -352,47 +361,48 @@ function showNewPassword(email, nickname) {
     </form>
   `;
 
-  lucide.createIcons();
+    lucide.createIcons();
 
-  document
-    .getElementById("resetPasswordForm")
-    .addEventListener("submit", async function (e) {
-      e.preventDefault();
+    document
+      .getElementById("resetPasswordForm")
+      .addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-      const newPassword = document.getElementById("newPassword").value.trim();
-      const confirmNewPassword = document
-        .getElementById("confirmNewPassword")
-        .value.trim();
+        const newPassword = document.getElementById("newPassword").value.trim();
+        const confirmNewPassword = document
+          .getElementById("confirmNewPassword")
+          .value.trim();
 
-      if (!newPassword || !confirmNewPassword) {
-        alert("Жаңа құпия сөзді енгізіңіз");
-        return;
-      }
+        if (!newPassword || !confirmNewPassword) {
+          alert("Жаңа құпия сөзді енгізіңіз");
+          return;
+        }
 
-      if (newPassword !== confirmNewPassword) {
-        alert("Құпия сөздер сәйкес емес");
-        return;
-      }
+        if (newPassword !== confirmNewPassword) {
+          alert("Құпия сөздер сәйкес емес");
+          return;
+        }
 
-      const res = await fetch("/api/forgot/reset", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          nickname,
-          newPassword,
-        }),
+        const res = await fetch("/api/forgot/reset", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            nickname,
+            newPassword,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          alert(data.message);
+          location.reload();
+        } else {
+          alert(data.message);
+        }
       });
-
-      const data = await res.json();
-
-      if (data.success) {
-        alert(data.message);
-        location.reload();
-      } else {
-        alert(data.message);
-      }
-    });
+  }
 }
