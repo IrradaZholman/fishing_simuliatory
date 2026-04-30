@@ -808,30 +808,32 @@
 
           <div class="profile-view">
             <div class="profile-avatar-wrap">
-              <div class="settings-avatar"></div>
-              <button class="avatar-camera-btn">
+              <div class="settings-avatar" id="profileAvatar"></div>
+
+              <label class="avatar-camera-btn">
                 <i data-lucide="camera"></i>
-              </button>
+                <input id="avatarInput" type="file" accept="image/*" hidden />
+              </label>
             </div>
 
             <div class="profile-info">
-              <h3 id="profileName">Maks</h3>
+              <h3 id="profileName">Қонақ</h3>
 
               <p>
                 <i data-lucide="mail"></i>
-                <span id="profileEmail">maksat.zholman@gmail.com</span>
+                <span id="profileEmail">Email жоқ</span>
               </p>
 
               <p>
                 <i data-lucide="user"></i>
                 Аты-жөні:
-                <span id="profileFullname">Maksat Zholman</span>
+                <span id="profileFullname">Аты-жөні жоқ</span>
               </p>
 
               <p>
                 <i data-lucide="clock"></i>
                 Сайтқа тіркелген уақыты:
-                <span id="profileCreatedAt">2026-04-28 00:26:14</span>
+                <span id="profileCreatedAt">Тіркелген уақыты жоқ</span>
               </p>
             </div>
           </div>
