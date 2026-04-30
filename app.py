@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-import requests
+import pymysql
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
 
@@ -20,28 +21,42 @@ def api_login():
         return jsonify({"success": False, "message": "Логин мен құпия сөзді енгізіңіз"})
 
     try:
-        r = requests.post(
-            "https://cybersaqshy.42web.io/simulator_login.php",
-            data={"username": username, "password": password},
-            timeout=15
+        conn = pymysql.connect(
+            host="sql309.infinityfree.com",
+            user="if0_41482304",
+            password="ЖАҢА_ПАРОЛЬ_ОСЫНДА",
+            database="if0_41482304_cybersaqshy",
+            charset="utf8mb4",
+            cursorclass=pymysql.cursors.DictCursor
         )
 
-        print("STATUS:", r.status_code)
-        print("TEXT:", r.text[:500])
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "SELECT id, fio, aty_zhoni, email, Qupiasoz FROM users WHERE aty_zhoni=%s OR email=%s",
+                (username, username)
+            )
+            user = cursor.fetchone()
 
-        if not r.text.strip().startswith("{"):
+        conn.close()
+
+        if not user:
+            return jsonify({"success": False, "message": "Логин немесе email табылмады"})
+
+        if check_password_hash(user["Qupiasoz"], password):
             return jsonify({
-                "success": False,
-                "message": "PHP JSON қайтармады. InfinityFree HTML/қате бет қайтарып тұр."
+                "success": True,
+                "user": {
+                    "id": user["id"],
+                    "name": user["fio"],
+                    "username": user["aty_zhoni"],
+                    "email": user["email"]
+                }
             })
 
-        return jsonify(r.json())
+        return jsonify({"success": False, "message": "Құпия сөз қате"})
 
     except Exception as e:
-        return jsonify({
-            "success": False,
-            "message": "Сервер қатесі: " + str(e)
-        })
+        return jsonify({"success": False, "message": "DB қатесі: " + str(e)})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
