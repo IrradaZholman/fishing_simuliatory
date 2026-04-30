@@ -362,62 +362,62 @@
     </div>
 
     <script>
-            lucide.createIcons();
+      lucide.createIcons();
 
-            document
-              .getElementById("loginForm")
-              .addEventListener("submit", async function (e) {
-                e.preventDefault();
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-                const username = document.getElementById("email").value.trim();
-                const password = document.getElementById("password").value.trim();
+          const username = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
 
-                if (!username || !password) {
-                  alert("Логин мен құпия сөзді енгізіңіз");
-                  return;
-                }
+          if (!username || !password) {
+            alert("Логин мен құпия сөзді енгізіңіз");
+            return;
+          }
 
-                try {
-                  const res = await fetch("/api/login", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      username: username,
-                      password: password,
-                    }),
-                  });
+          try {
+            const res = await fetch("/api/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                username: username,
+                password: password,
+              }),
+            });
 
-                  const data = await res.json();
-                  console.log("Server response:", data);
+            const data = await res.json();
+            console.log("Server response:", data);
 
-                  if (data.success) {
-                    localStorage.setItem("user", JSON.stringify(data.user));
-                    window.location.href = "SIMULIATOR.html";
-                  } else {
-                    alert(data.message);
-                  }
-                } catch (error) {
-                  alert("Сервер қатесі: " + error.message);
-                  console.error(error);
-                }
-              });
-
-            function tryFree() {
-              localStorage.setItem(
-                "user",
-                JSON.stringify({
-                  name: "Қонақ",
-                  mode: "free",
-                }),
-              );
-
-              window.location.href = "SIMULIATOR.html";
+            if (data.success) {
+              localStorage.setItem("user", JSON.stringify(data.user));
+              window.location.href = "/SIMULIATOR";
+            } else {
+              alert(data.message);
             }
+          } catch (error) {
+            alert("Сервер қатесі: " + error.message);
+            console.error(error);
+          }
+        });
 
-            function showRegister() {
-              document.querySelector(".form-box").innerHTML = `
+      function tryFree() {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: "Қонақ",
+            mode: "free",
+          }),
+        );
+
+        window.location.href = "/SIMULIATOR";
+      }
+
+      function showRegister() {
+        document.querySelector(".form-box").innerHTML = `
           <h2>Тіркелу</h2>
           <p class="subtitle">
             Жаңа аккаунт құрып, симуляторды пайдалана бастаңыз
@@ -481,80 +481,80 @@
           </p>
         `;
 
-              lucide.createIcons();
+        lucide.createIcons();
 
-              document
-                .getElementById("registerForm")
-                .addEventListener("submit", async function (e) {
-                  e.preventDefault();
+        document
+          .getElementById("registerForm")
+          .addEventListener("submit", async function (e) {
+            e.preventDefault();
 
-                  const fullname = document.getElementById("fullname").value.trim();
-                  const username = document
-                    .getElementById("regUsername")
-                    .value.trim();
-                  const email = document.getElementById("regEmail").value.trim();
-                  const password = document
-                    .getElementById("regPassword")
-                    .value.trim();
-                  const confirmPassword = document
-                    .getElementById("confirmPassword")
-                    .value.trim();
+            const fullname = document.getElementById("fullname").value.trim();
+            const username = document
+              .getElementById("regUsername")
+              .value.trim();
+            const email = document.getElementById("regEmail").value.trim();
+            const password = document
+              .getElementById("regPassword")
+              .value.trim();
+            const confirmPassword = document
+              .getElementById("confirmPassword")
+              .value.trim();
 
-                  if (
-                    !fullname ||
-                    !username ||
-                    !email ||
-                    !password ||
-                    !confirmPassword
-                  ) {
-                    alert("Барлық жолдарды толтырыңыз");
-                    return;
-                  }
-
-                  if (password !== confirmPassword) {
-                    alert("Құпия сөздер сәйкес емес");
-                    return;
-                  }
-
-                  const res = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullname: fullname,
-          username: username,
-          email: email,
-          password: password,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        alert(data.message);
-        location.reload();
-      } else {
-        alert(data.message);
-      }
-                });
+            if (
+              !fullname ||
+              !username ||
+              !email ||
+              !password ||
+              !confirmPassword
+            ) {
+              alert("Барлық жолдарды толтырыңыз");
+              return;
             }
-            document.addEventListener("click", function (e) {
-              if (e.target.closest(".toggle-password")) {
-                const eye = e.target.closest(".toggle-password");
-                const input = eye.parentElement.querySelector("input");
 
-                if (input.type === "password") {
-                  input.type = "text";
-                  eye.setAttribute("data-lucide", "eye"); // ашық көз
-                } else {
-                  input.type = "password";
-                  eye.setAttribute("data-lucide", "eye-off"); // жабық көз
-                }
+            if (password !== confirmPassword) {
+              alert("Құпия сөздер сәйкес емес");
+              return;
+            }
 
-                lucide.createIcons(); // иконканы жаңарту
-              }
+            const res = await fetch("/api/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                fullname: fullname,
+                username: username,
+                email: email,
+                password: password,
+              }),
             });
+
+            const data = await res.json();
+
+            if (data.success) {
+              alert(data.message);
+              location.reload();
+            } else {
+              alert(data.message);
+            }
+          });
+      }
+      document.addEventListener("click", function (e) {
+        if (e.target.closest(".toggle-password")) {
+          const eye = e.target.closest(".toggle-password");
+          const input = eye.parentElement.querySelector("input");
+
+          if (input.type === "password") {
+            input.type = "text";
+            eye.setAttribute("data-lucide", "eye"); // ашық көз
+          } else {
+            input.type = "password";
+            eye.setAttribute("data-lucide", "eye-off"); // жабық көз
+          }
+
+          lucide.createIcons(); // иконканы жаңарту
+        }
+      });
     </script>
   </body>
 </html>
