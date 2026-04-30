@@ -69,15 +69,13 @@ def api_register():
     try:
         data = request.get_json()
 
-        if not data:
-            return jsonify({"success": False, "message": "Деректер келмеді"})
-
         fullname = data.get("fullname", "").strip()
-        username = data.get("username", "").strip()
+        username = data.get("username", "").strip()  # login
+        nickname = data.get("nickname", "").strip()  # nickname
         email = data.get("email", "").strip()
         password = data.get("password", "").strip()
 
-        if not fullname or not username or not email or not password:
+        if not fullname or not username or not nickname or not email or not password:
             return jsonify({"success": False, "message": "Барлық жолдарды толтырыңыз"})
 
         password_hash = generate_password_hash(password)
@@ -86,9 +84,9 @@ def api_register():
         cur = conn.cursor()
 
         cur.execute("""
-            INSERT INTO users (fullname, username, email, password_hash)
-            VALUES (%s, %s, %s, %s)
-        """, (fullname, username, email, password_hash))
+            INSERT INTO users (fullname, username, nickname, email, password_hash)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (fullname, username, nickname, email, password_hash))
 
         conn.commit()
 
@@ -97,18 +95,11 @@ def api_register():
     except psycopg2.errors.UniqueViolation:
         if conn:
             conn.rollback()
-        return jsonify({"success": False, "message": "Бұл никнейм немесе email бұрын тіркелген"})
-
-    except Exception as e:
-        if conn:
-            conn.rollback()
-        return jsonify({"success": False, "message": "Сервер қатесі: " + str(e)})
+        return jsonify({"success": False, "message": "Логин, никнейм немесе email бар"})
 
     finally:
-        if cur:
-            cur.close()
-        if conn:
-            conn.close()
+        if cur: cur.close()
+        if conn: conn.close()
 
 
 @app.route("/api/login", methods=["POST"])
@@ -169,92 +160,61 @@ def api_login():
 
 @app.route("/api/forgot/check", methods=["POST"])
 def forgot_check():
-    conn = None
-    cur = None
+    data = request.get_json()
 
-    try:
-        data = request.get_json()
+    email = data.get("email", "").strip()
+    nickname = data.get("nickname", "").strip()
 
-        email = data.get("email", "").strip()
-        username = data.get("username", "").strip()
+    conn = get_db()
+    cur = conn.cursor()
 
-        if not email or not username:
-            return jsonify({"success": False, "message": "Email және никнеймді енгізіңіз"})
+    cur.execute("""
+        SELECT id FROM users
+        WHERE email = %s AND nickname = %s
+        LIMIT 1
+    """, (email, nickname))
 
-        conn = get_db()
-        cur = conn.cursor()
+    user = cur.fetchone()
 
-        cur.execute("""
-            SELECT id FROM users
-            WHERE email = %s AND username = %s
-            LIMIT 1
-        """, (email, username))
+    cur.close()
+    conn.close()
 
-        user = cur.fetchone()
+    if not user:
+        return jsonify({"success": False, "message": "Email немесе никнейм қате"})
 
-        if not user:
-            return jsonify({"success": False, "message": "Email немесе никнейм қате"})
-
-        return jsonify({"success": True, "message": "Аккаунт табылды"})
-
-    except Exception as e:
-        return jsonify({"success": False, "message": "Сервер қатесі: " + str(e)})
-
-    finally:
-        if cur:
-            cur.close()
-        if conn:
-            conn.close()
+    return jsonify({"success": True})
 
 
 @app.route("/api/forgot/reset", methods=["POST"])
 def forgot_reset():
-    conn = None
-    cur = None
+    data = request.get_json()
 
-    try:
-        data = request.get_json()
+    email = data.get("email", "").strip()
+    nickname = data.get("nickname", "").strip()
+    new_password = data.get("newPassword", "").strip()
 
-        email = data.get("email", "").strip()
-        username = data.get("username", "").strip()
-        new_password = data.get("newPassword", "").strip()
+    new_hash = generate_password_hash(new_password)
 
-        if not email or not username or not new_password:
-            return jsonify({"success": False, "message": "Барлық жолдарды толтырыңыз"})
+    conn = get_db()
+    cur = conn.cursor()
 
-        if len(new_password) < 6:
-            return jsonify({"success": False, "message": "Құпия сөз кемінде 6 таңба болсын"})
+    cur.execute("""
+        UPDATE users
+        SET password_hash = %s
+        WHERE email = %s AND nickname = %s
+        RETURNING id
+    """, (new_hash, email, nickname))
 
-        new_hash = generate_password_hash(new_password)
+    updated = cur.fetchone()
+    conn.commit()
 
-        conn = get_db()
-        cur = conn.cursor()
+    cur.close()
+    conn.close()
 
-        cur.execute("""
-            UPDATE users
-            SET password_hash = %s
-            WHERE email = %s AND username = %s
-            RETURNING id
-        """, (new_hash, email, username))
+    if not updated:
+        return jsonify({"success": False, "message": "Қате"})
 
-        updated_user = cur.fetchone()
-        conn.commit()
-
-        if not updated_user:
-            return jsonify({"success": False, "message": "Аккаунт табылмады"})
-
-        return jsonify({"success": True, "message": "Құпия сөз сәтті жаңартылды!"})
-
-    except Exception as e:
-        if conn:
-            conn.rollback()
-        return jsonify({"success": False, "message": "Сервер қатесі: " + str(e)})
-
-    finally:
-        if cur:
-            cur.close()
-        if conn:
-            conn.close()
+    return jsonify({"success": True, "message": "Пароль жаңартылды"})
 
 
 if __name__ == "__main__":
