@@ -143,16 +143,23 @@ function showRegister() {
     .getElementById("registerForm")
     .addEventListener("submit", async function (e) {
       e.preventDefault();
-
+      const login = document.getElementById("regLogin").value.trim();
       const fullname = document.getElementById("fullname").value.trim();
-      const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
       const password = document.getElementById("regPassword").value.trim();
+      const nickname = document.getElementById("regNickname").value.trim();
       const confirmPassword = document
         .getElementById("confirmPassword")
         .value.trim();
 
-      if (!fullname || !username || !email || !password || !confirmPassword) {
+      if (
+        !fullname ||
+        !login ||
+        !nickname ||
+        !email ||
+        !password ||
+        !confirmPassword
+      ) {
         alert("Барлық жолдарды толтырыңыз");
         return;
       }
@@ -175,7 +182,8 @@ function showRegister() {
         },
         body: JSON.stringify({
           fullname: fullname,
-          username: username,
+          username: login,
+          nickname: nickname,
           email: email,
           password: password,
         }),
@@ -276,7 +284,7 @@ function showForgotPassword() {
       e.preventDefault();
 
       const email = document.getElementById("forgotEmail").value.trim();
-      const username = document.getElementById("forgotUsername").value.trim();
+      const nickname = document.getElementById("forgotUsername").value.trim();
 
       if (!email || !username) {
         alert("Email және никнеймді енгізіңіз");
@@ -288,7 +296,7 @@ function showForgotPassword() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, username }),
+        body: JSON.stringify({ email, nickname }),
       });
 
       const data = await res.json();
