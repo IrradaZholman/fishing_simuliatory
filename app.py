@@ -38,10 +38,8 @@ def init_db():
             );
         """)
 
-        cur.execute("""
-            ALTER TABLE users
-            ADD COLUMN IF NOT EXISTS nickname VARCHAR(50);
-        """)
+        cur.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS nickname VARCHAR(50);")
+        cur.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar TEXT;")
 
         cur.execute("""
             CREATE UNIQUE INDEX IF NOT EXISTS users_nickname_unique
@@ -109,11 +107,25 @@ def api_register():
         cur.execute("""
             INSERT INTO users (fullname, username, nickname, email, password_hash)
             VALUES (%s, %s, %s, %s, %s)
+            RETURNING id, fullname, username, nickname, email, avatar, created_at
         """, (fullname, username, nickname, email, password_hash))
 
+        user = cur.fetchone()
         conn.commit()
 
-        return jsonify({"success": True, "message": "Тіркелу сәтті өтті!"})
+        return jsonify({
+            "success": True,
+            "message": "Тіркелу сәтті өтті!",
+            "user": {
+                "id": user["id"],
+                "fullname": user["fullname"],
+                "username": user["username"],
+                "nickname": user["nickname"],
+                "email": user["email"],
+                "avatar": user["avatar"],
+                "created_at": user["created_at"].strftime("%Y-%m-%d %H:%M:%S")
+            }
+        })
 
     except psycopg2.errors.UniqueViolation:
         if conn:
@@ -153,7 +165,7 @@ def api_login():
         cur = conn.cursor()
 
         cur.execute("""
-            SELECT id, fullname, username, nickname, email, password_hash
+            SELECT id, fullname, username, nickname, email, avatar, password_hash, created_at
             FROM users
             WHERE username = %s OR email = %s
             LIMIT 1
@@ -175,11 +187,81 @@ def api_login():
                 "fullname": user["fullname"],
                 "username": user["username"],
                 "nickname": user["nickname"],
-                "email": user["email"]
+                "email": user["email"],
+                "avatar": user["avatar"],
+                "created_at": user["created_at"].strftime("%Y-%m-%d %H:%M:%S")
             }
         })
 
     except Exception as e:
+        return jsonify({"success": False, "message": "Сервер қатесі: " + str(e)})
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+
+@app.route("/api/profile/update", methods=["POST"])
+def update_profile():
+    conn = None
+    cur = None
+
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"success": False, "message": "Деректер келмеді"})
+
+        user_id = data.get("id")
+        fullname = data.get("fullname", "").strip()
+        username = data.get("username", "").strip()
+        nickname = data.get("nickname", "").strip()
+        email = data.get("email", "").strip()
+        avatar = data.get("avatar", "")
+
+        if not user_id or not fullname or not username or not nickname or not email:
+            return jsonify({"success": False, "message": "Барлық жолдарды толтырыңыз"})
+
+        conn = get_db()
+        cur = conn.cursor()
+
+        cur.execute("""
+            UPDATE users
+            SET fullname = %s, username = %s, nickname = %s, email = %s, avatar = %s
+            WHERE id = %s
+            RETURNING id, fullname, username, nickname, email, avatar, created_at
+        """, (fullname, username, nickname, email, avatar, user_id))
+
+        user = cur.fetchone()
+        conn.commit()
+
+        if not user:
+            return jsonify({"success": False, "message": "Қолданушы табылмады"})
+
+        return jsonify({
+            "success": True,
+            "message": "Профиль сәтті жаңартылды!",
+            "user": {
+                "id": user["id"],
+                "fullname": user["fullname"],
+                "username": user["username"],
+                "nickname": user["nickname"],
+                "email": user["email"],
+                "avatar": user["avatar"],
+                "created_at": user["created_at"].strftime("%Y-%m-%d %H:%M:%S")
+            }
+        })
+
+    except psycopg2.errors.UniqueViolation:
+        if conn:
+            conn.rollback()
+        return jsonify({"success": False, "message": "Логин, никнейм немесе email бұрын тіркелген"})
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
         return jsonify({"success": False, "message": "Сервер қатесі: " + str(e)})
 
     finally:
@@ -196,9 +278,6 @@ def forgot_check():
 
     try:
         data = request.get_json()
-
-        if not data:
-            return jsonify({"success": False, "message": "Деректер келмеді"})
 
         email = data.get("email", "").strip()
         nickname = data.get("nickname", "").strip()
@@ -239,9 +318,6 @@ def forgot_reset():
 
     try:
         data = request.get_json()
-
-        if not data:
-            return jsonify({"success": False, "message": "Деректер келмеді"})
 
         email = data.get("email", "").strip()
         nickname = data.get("nickname", "").strip()
