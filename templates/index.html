@@ -386,19 +386,20 @@
           }
 
           try {
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("password", password);
+
             const res = await fetch(
               "https://cybersaqshy.42web.io/simulator_login.php",
               {
                 method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password }),
+                body: formData,
               },
             );
 
             const text = await res.text();
-            alert(text); // уақытша тексеру үшін
+            console.log("PHP response:", text);
 
             const data = JSON.parse(text);
 
@@ -410,6 +411,7 @@
             }
           } catch (error) {
             alert("JS немесе PHP қатесі: " + error.message);
+            console.error(error);
           }
         });
 
