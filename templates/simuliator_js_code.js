@@ -288,3 +288,75 @@ function toggleHistory() {
 
   lucide.createIcons();
 }
+function loadProfileFromStorage() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  if (user.name) document.getElementById("profileName").innerText = user.name;
+  if (user.email)
+    document.getElementById("profileEmail").innerText = user.email;
+  if (user.nickname)
+    document.getElementById("profileNickname").innerText = user.nickname;
+}
+
+function editProfile() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  document.getElementById("editFio").value = user.name || "";
+  document.getElementById("editUsername").value = user.username || "";
+  document.getElementById("editNickname").value = user.nickname || "";
+  document.getElementById("editEmail").value = user.email || "";
+
+  document.getElementById("profileEditForm").style.display = "flex";
+}
+
+function cancelProfileEdit() {
+  document.getElementById("profileEditForm").style.display = "none";
+}
+
+async function saveProfile() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const updatedUser = {
+    id: user.id,
+    fio: document.getElementById("editFio").value.trim(),
+    username: document.getElementById("editUsername").value.trim(),
+    nickname: document.getElementById("editNickname").value.trim(),
+    email: document.getElementById("editEmail").value.trim(),
+  };
+
+  const res = await fetch(
+    "https://cybersaqshy.42web.io/simulator_update_profile.php",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedUser),
+    },
+  );
+
+  const data = await res.json();
+
+  if (data.success) {
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    document.getElementById("profileName").innerText = data.user.name;
+    document.getElementById("profileEmail").innerText = data.user.email;
+    document.getElementById("profileNickname").innerText = data.user.nickname;
+
+    document.getElementById("profileEditForm").style.display = "none";
+    alert("Профиль сәтті өзгертілді!");
+  } else {
+    alert(data.message);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadProfileFromStorage);
+
+function editProfile() {
+  document.getElementById("profileForm").classList.add("active");
+}
+
+function cancelProfileEdit() {
+  document.getElementById("profileForm").classList.remove("active");
+}
