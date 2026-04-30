@@ -288,164 +288,9 @@ function toggleHistory() {
 
   lucide.createIcons();
 }
-function loadProfileFromStorage() {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-  if (user.name) document.getElementById("profileName").innerText = user.name;
-  if (user.email)
-    document.getElementById("profileEmail").innerText = user.email;
-  if (user.nickname)
-    document.getElementById("profileNickname").innerText = user.nickname;
-}
-
-function editProfile() {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-  document.getElementById("editFio").value = user.name || "";
-  document.getElementById("editUsername").value = user.username || "";
-  document.getElementById("editNickname").value = user.nickname || "";
-  document.getElementById("editEmail").value = user.email || "";
-
-  document.getElementById("profileEditForm").style.display = "flex";
-}
-
-function cancelProfileEdit() {
-  document.getElementById("profileEditForm").style.display = "none";
-}
-
-async function saveProfile() {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-  const updatedUser = {
-    id: user.id,
-    fio: document.getElementById("editFio").value.trim(),
-    username: document.getElementById("editUsername").value.trim(),
-    nickname: document.getElementById("editNickname").value.trim(),
-    email: document.getElementById("editEmail").value.trim(),
-  };
-
-  const res = await fetch(
-    "https://cybersaqshy.42web.io/simulator_update_profile.php",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedUser),
-    },
-  );
-
-  const data = await res.json();
-
-  if (data.success) {
-    localStorage.setItem("user", JSON.stringify(data.user));
-
-    document.getElementById("profileName").innerText = data.user.name;
-    document.getElementById("profileEmail").innerText = data.user.email;
-    document.getElementById("profileNickname").innerText = data.user.nickname;
-
-    document.getElementById("profileEditForm").style.display = "none";
-    alert("Профиль сәтті өзгертілді!");
-  } else {
-    alert(data.message);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", loadProfileFromStorage);
-function cancelProfileEdit() {
-  document.getElementById("profileForm").classList.remove("active");
-}
-function loadProfileFromStorage() {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-  const fullname = user.fullname || user.name || "Maks";
-  const email = user.email || "maksat.zholman@gmail.com";
-  const username = user.username || "";
-  const nickname = user.nickname || "";
-  const createdAt = user.created_at || "2026-04-28 00:26:14";
-
-  document.getElementById("profileName").innerText = fullname;
-  document.getElementById("profileFullname").innerText = fullname;
-  document.getElementById("profileEmail").innerText = email;
-  document.getElementById("profileCreatedAt").innerText = createdAt;
-
-  document.getElementById("editFio").value = fullname;
-  document.getElementById("editUsername").value = username;
-  document.getElementById("editNickname").value = nickname;
-  document.getElementById("editEmail").value = email;
-}
-
-function editProfile() {
-  loadProfileFromStorage();
-  document.getElementById("profileForm").classList.add("active");
-}
-
-function cancelProfileEdit() {
-  document.getElementById("profileForm").classList.remove("active");
-}
-
-function saveProfile() {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-  user.fullname = document.getElementById("editFio").value.trim();
-  user.name = user.fullname;
-  user.username = document.getElementById("editUsername").value.trim();
-  user.nickname = document.getElementById("editNickname").value.trim();
-  user.email = document.getElementById("editEmail").value.trim();
-
-  localStorage.setItem("user", JSON.stringify(user));
-
-  loadProfileFromStorage();
-  cancelProfileEdit();
-  alert("Профиль сәтті өзгертілді!");
-}
-
-document.addEventListener("DOMContentLoaded", loadProfileFromStorage);
-function getCurrentUser() {
-  return JSON.parse(localStorage.getItem("user") || "{}");
-}
 
 function setCurrentUser(user) {
   localStorage.setItem("user", JSON.stringify(user));
-}
-
-function loadProfileFromStorage() {
-  const user = getCurrentUser();
-
-  const fullname = user.fullname || user.name || "Қонақ";
-  const email = user.email || "Email жоқ";
-  const username = user.username || "";
-  const nickname = user.nickname || "";
-  const createdAt = user.created_at || "Тіркелген уақыты жоқ";
-  const avatar = user.avatar || "";
-
-  document.getElementById("profileName").innerText = user.username || "Қонақ";
-  document.getElementById("profileEmail").innerText = email;
-  document.getElementById("profileFullname").innerText = fullname;
-  document.getElementById("profileCreatedAt").innerText = createdAt;
-
-  document.getElementById("editFio").value =
-    fullname === "Қонақ" ? "" : fullname;
-  document.getElementById("editUsername").value = username;
-  document.getElementById("editNickname").value = nickname;
-  document.getElementById("editEmail").value =
-    email === "Email жоқ" ? "" : email;
-
-  if (avatar) {
-    document.getElementById("profileAvatar").style.backgroundImage =
-      `url("${avatar}")`;
-  }
-
-  lucide.createIcons();
-}
-
-function editProfile() {
-  loadProfileFromStorage();
-  document.getElementById("profileForm").classList.add("active");
-}
-
-function cancelProfileEdit() {
-  document.getElementById("profileForm").classList.remove("active");
 }
 
 async function saveProfile() {
@@ -539,67 +384,9 @@ function loadWelcome() {
 document.addEventListener("DOMContentLoaded", function () {
   loadWelcome();
 });
-function logout() {
-  localStorage.removeItem("user");
-  window.location.href = "/";
-}
-function getCurrentUser() {
-  return JSON.parse(localStorage.getItem("user") || "{}");
-}
 
 function setCurrentUser(user) {
   localStorage.setItem("user", JSON.stringify(user));
-}
-
-function loadProfileFromStorage() {
-  const user = getCurrentUser();
-
-  const fullname = user.fullname || user.name || "Қонақ";
-  const email = user.email || "Email жоқ";
-  const username = user.username || "";
-  const nickname = user.nickname || "";
-  const createdAt = user.created_at || "Тіркелген уақыты жоқ";
-
-  if (document.getElementById("profileName")) {
-    document.getElementById("profileName").innerText = fullname;
-  }
-
-  if (document.getElementById("profileFullname")) {
-    document.getElementById("profileFullname").innerText = fullname;
-  }
-
-  if (document.getElementById("profileEmail")) {
-    document.getElementById("profileEmail").innerText = email;
-  }
-
-  if (document.getElementById("profileCreatedAt")) {
-    document.getElementById("profileCreatedAt").innerText = createdAt;
-  }
-
-  if (document.getElementById("welcomeText")) {
-    document.getElementById("welcomeText").innerText = `Сәлем, ${fullname}! 👋`;
-  }
-
-  if (document.getElementById("headerAvatar")) {
-    document.getElementById("headerAvatar").innerText =
-      fullname.charAt(0).toUpperCase();
-  }
-
-  if (document.getElementById("editFio")) {
-    document.getElementById("editFio").value = fullname;
-  }
-
-  if (document.getElementById("editUsername")) {
-    document.getElementById("editUsername").value = username;
-  }
-
-  if (document.getElementById("editNickname")) {
-    document.getElementById("editNickname").value = nickname;
-  }
-
-  if (document.getElementById("editEmail")) {
-    document.getElementById("editEmail").value = email;
-  }
 }
 
 function editProfile() {
@@ -611,11 +398,49 @@ function editProfile() {
   }
 }
 
-function cancelProfileEdit() {
-  const form = document.getElementById("profileForm");
-  if (form) {
-    form.classList.remove("active");
+document.addEventListener("DOMContentLoaded", () => {
+  loadProfileFromStorage();
+
+  if (typeof lucide !== "undefined") {
+    lucide.createIcons();
   }
+});
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem("user") || "{}");
+}
+
+function loadProfileFromStorage() {
+  const user = getCurrentUser();
+
+  const username = user.username || "Қонақ";
+  const fullname = user.fullname || user.name || "";
+  const email = user.email || "Email жоқ";
+  const createdAt = user.created_at || "Тіркелген уақыты жоқ";
+  const avatar = user.avatar || "";
+
+  // 🔥 username (үлкен)
+  document.getElementById("profileName").innerText = username;
+
+  // fullname (төменде)
+  document.getElementById("profileFullname").innerText = fullname;
+
+  document.getElementById("profileEmail").innerText = email;
+  document.getElementById("profileCreatedAt").innerText = createdAt;
+
+  // 🔥 аватар
+  if (avatar) {
+    document.getElementById("profileAvatar").style.backgroundImage =
+      `url("${avatar}")`;
+  }
+
+  // form
+  document.getElementById("editFio").value = fullname;
+  document.getElementById("editUsername").value = username;
+  document.getElementById("editEmail").value = email;
+}
+
+function cancelProfileEdit() {
+  document.getElementById("profileForm").classList.remove("active");
 }
 
 function saveProfile() {
@@ -624,7 +449,6 @@ function saveProfile() {
   user.fullname = document.getElementById("editFio").value.trim();
   user.name = user.fullname;
   user.username = document.getElementById("editUsername").value.trim();
-  user.nickname = document.getElementById("editNickname").value.trim();
   user.email = document.getElementById("editEmail").value.trim();
 
   setCurrentUser(user);
@@ -632,7 +456,90 @@ function saveProfile() {
   loadProfileFromStorage();
   cancelProfileEdit();
 
-  alert("Профиль сәтті өзгертілді!");
+  alert("Профиль сақталды!");
+}
+
+// 🔥 СУРЕТ САҚТАУ
+document.getElementById("avatarInput").addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    const user = getCurrentUser();
+
+    user.avatar = e.target.result;
+
+    setCurrentUser(user);
+    loadProfileFromStorage();
+  };
+
+  reader.readAsDataURL(file);
+});
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "/";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadProfileFromStorage();
+});
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem("user") || "{}");
+}
+
+function setCurrentUser(user) {
+  localStorage.setItem("user", JSON.stringify(user));
+}
+
+function loadProfileFromStorage() {
+  const user = getCurrentUser();
+
+  const username = user.username || "Қонақ";
+  const fullname = user.fullname || user.name || "";
+  const email = user.email || "Email жоқ";
+  const createdAt = user.created_at || "Тіркелген уақыты жоқ";
+  const avatar = user.avatar || "";
+
+  document.getElementById("profileName").innerText = username;
+  document.getElementById("profileFullname").innerText = fullname;
+  document.getElementById("profileEmail").innerText = email;
+  document.getElementById("profileCreatedAt").innerText = createdAt;
+
+  if (avatar) {
+    document.getElementById("profileAvatar").style.backgroundImage =
+      `url("${avatar}")`;
+  }
+
+  document.getElementById("editFio").value = fullname;
+  document.getElementById("editUsername").value = username;
+  document.getElementById("editEmail").value = email;
+}
+
+function editProfile() {
+  loadProfileFromStorage();
+  document.getElementById("profileForm").classList.add("active");
+}
+
+function cancelProfileEdit() {
+  document.getElementById("profileForm").classList.remove("active");
+}
+
+function saveProfile() {
+  const user = getCurrentUser();
+
+  user.fullname = document.getElementById("editFio").value.trim();
+  user.name = user.fullname;
+  user.username = document.getElementById("editUsername").value.trim();
+  user.email = document.getElementById("editEmail").value.trim();
+
+  setCurrentUser(user);
+  loadProfileFromStorage();
+  cancelProfileEdit();
+
+  alert("Профиль сақталды!");
 }
 
 function logout() {
@@ -642,6 +549,25 @@ function logout() {
 
 document.addEventListener("DOMContentLoaded", () => {
   loadProfileFromStorage();
+
+  const avatarInput = document.getElementById("avatarInput");
+  if (avatarInput) {
+    avatarInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const user = getCurrentUser();
+        user.avatar = e.target.result;
+        setCurrentUser(user);
+        loadProfileFromStorage();
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
 
   if (typeof lucide !== "undefined") {
     lucide.createIcons();
