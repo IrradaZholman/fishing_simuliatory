@@ -539,3 +539,7 @@ function loadWelcome() {
 document.addEventListener("DOMContentLoaded", function () {
   loadWelcome();
 });
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "/";
+}
