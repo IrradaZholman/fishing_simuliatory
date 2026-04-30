@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMULIATOR | Кіру</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f7fb;
+    }
+
+    /* PAGE */
+    .login-page {
+      min-height: 100vh;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* CARD */
+    .login-card {
+      width: 95%;
+      max-width: 1050px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    /* LEFT */
+    .login-left {
+      background: linear-gradient(135deg, #f0fdf4, #f8fffb);
+      padding: 40px;
+      text-align: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .brand-icon {
+      width: 60px;
+      height: 60px;
+      background: #dcfce7;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon img {
+      width: 34px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 26px;
+      color: #16a34a;
+    }
+
+    .brand p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .left-text h2 {
+      font-size: 22px;
+      margin: 0;
+    }
+
+    .left-text p {
+      font-size: 14px;
+      margin-top: 15px;
+      color: #6b7280;
+    }
+
+    .security-img {
+      width: 260px;
+      margin: 30px 0;
+    }
+
+    .daily-tip {
+      background: #dcfce7;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+
+    /* RIGHT */
+    .login-right {
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .form-box {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .form-box h2 {
+      font-size: 32px;
+      margin: 0;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 6px; /* 👈 ОСЫ ЖЕР МАҢЫЗДЫ */
+    }
+
+    .input-box {
+      height: 52px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      margin-bottom: 18px;
+    }
+
+    .input-box input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 14px;
+    }
+
+    /* OPTIONS */
+    .options {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .options a {
+      color: #16a34a;
+      text-decoration: none;
+    }
+
+    /* BUTTON */
+    .login-btn {
+      width: 100%;
+      height: 52px;
+      background: linear-gradient(90deg, #16a34a, #15803d);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+
+      display: flex; /* МАҢЫЗДЫ */
+      align-items: center; /* вертикаль центр */
+      justify-content: center; /* горизонталь центр */
+      gap: 8px; /* иконка мен текст арасы */
+
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* DIVIDER */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .divider span {
+      flex: 1;
+      height: 1px;
+      background: #ddd;
+    }
+
+    .divider p {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    /* FREE BUTTON */
+    .free-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1.5px dashed #86efac;
+      background: #f0fdf4;
+      color: #16a34a;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .free-btn:hover {
+      background: #dcfce7;
+    }
+
+    .free-btn small {
+      display: block;
+      font-size: 12px;
+      margin-top: 5px;
+      color: #6b7280;
+    }
+
+    /* REGISTER */
+    .register {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+    .register a {
+      color: #16a34a;
+      font-weight: 600;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .login-card {
+        grid-template-columns: 1fr;
+      }
+
+      .login-left {
+        padding: 25px;
+      }
+
+      .login-right {
+        padding: 25px;
+      }
+
+      .security-img {
+        width: 200px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .login-card {
+        border-radius: 0;
+      }
+
+      .form-box h2 {
+        font-size: 26px;
+      }
+
+      .left-text h2 {
+        font-size: 18px;
+      }
+    }
+  </style>
+
+  <body>
+    <div class="login-page">
+      <div class="login-card">
+        <!-- LEFT -->
+        <div class="login-left">
+          <div class="brand">
+            <div class="brand-icon">
+              <img src="logo.png" alt="logo" />
+            </div>
+            <div>
+              <h1>SIMULIATOR</h1>
+              <p>Киберқауіпсіздік симуляторы</p>
+            </div>
+          </div>
+
+          <div class="left-text">
+            <h2>Қауіпсіздік дағдыларыңды<br />дамыт – болашақты қорға!</h2>
+            <p>
+              Фишинг, жалған сайттар, SMS және қоңырауларды<br />ажырата
+              үйреніңіз
+            </p>
+          </div>
+
+          <img class="security-img" src="login-security.png" alt="security" />
+
+          <div class="daily-tip">
+            💡 Күн сайын кіріп, өз дағдыларыңызды жақсартыңыз!
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="login-right">
+          <div class="form-box">
+            <h2>Жүйеге кіру</h2>
+            <p class="subtitle">
+              Жеке кабинетіңізге кіру үшін деректеріңізді енгізіңіз
+            </p>
+            <form id="loginForm">
+              <label>Логин немесе Email</label>
+              <div class="input-box">
+                <i data-lucide="mail"></i>
+                <input
+                  id="email"
+                  type="text"
+                  placeholder="Логин немесе email"
+                />
+              </div>
+
+              <label>Құпия сөз</label>
+              <div class="input-box">
+                <i data-lucide="lock"></i>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Құпия сөзіңізді енгізіңіз"
+                />
+                <i data-lucide="eye-off" class="eye"></i>
+              </div>
+
+              <div class="options">
+                <label class="remember">
+                  <input type="checkbox" />
+                  <span>Мені есте сақтау</span>
+                </label>
+                <a href="#">Құпия сөзді ұмыттыңыз ба?</a>
+              </div>
+
+              <button type="submit" class="login-btn">
+                <i data-lucide="log-in"></i>
+                Кіру
+              </button>
+            </form>
+
+            <div class="divider">
+              <span></span>
+              <p>немесе</p>
+              <span></span>
+            </div>
+
+            <button class="free-btn" onclick="tryFree()">
+              ✨ Тегін қолданып көру
+              <small>Тіркелусіз жүйені көріп шығыңыз</small>
+            </button>
+
+            <p class="register">Аккаунтыңыз жоқ па? <a href="#">Тіркелу</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      lucide.createIcons();
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          const res = await fetch(
+            "https://cybersaqshy.42web.io/simulator_login.php",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username, password }),
+            },
+          );
+
+          const data = await res.json();
+
+          if (data.success) {
+            localStorage.setItem("user", JSON.stringify(data.user));
+            window.location.href = "SIMULIATOR.html";
+          } else {
+            alert(data.message);
+          }
+        });
+
+      function tryFree() {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: "Қонақ",
+            mode: "free",
+          }),
+        );
+
+        window.location.href = "SIMULIATOR.html";
+      }
+    </script>
+  </body>
+</html>
