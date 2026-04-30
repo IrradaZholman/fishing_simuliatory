@@ -790,36 +790,73 @@
       </div>
 
       <div class="settings-container">
-        <div class="settings-card">
+        <div class="settings-card profile-card">
           <div class="section-title"><i data-lucide="user"></i> Профиль</div>
 
-          <div class="settings-profile">
-            <div class="settings-avatar"></div>
+          <div class="profile-edit-layout">
+            <div class="profile-photo-side">
+              <div class="settings-avatar"></div>
 
-            <div class="profile-info">
-              <h3>Maks</h3>
-              <p><i data-lucide="mail"></i> maksat.zholman@gmail.com</p>
-              <p><i data-lucide="user-round"></i> ????</p>
-              <p><i data-lucide="clock"></i> Соңғы кіру: 2026-04-28 00:26:14</p>
+              <button class="photo-change-btn">
+                <i data-lucide="upload"></i>
+                Суретті өзгерту
+              </button>
             </div>
+            <div
+              class="profile-form-side"
+              id="profileForm"
+              style="display: none"
+            >
+              <button class="settings-btn profile-btn" onclick="editProfile()">
+                Профильді өзгерту
+              </button>
 
-            <button class="settings-btn profile-btn">Профильді өзгерту</button>
+              <div class="profile-form-row">
+                <label>Логин</label>
+                <input id="editUsername" value="konak_user" />
+              </div>
+
+              <div class="profile-form-row">
+                <label>Nickname</label>
+                <input id="editNickname" value="Қонақ" />
+              </div>
+
+              <div class="profile-form-row">
+                <label>Email</label>
+                <input id="editEmail" value="maksat.zholman@gmail.com" />
+              </div>
+
+              <input id="editFio" type="hidden" value="Қонақ" />
+
+              <div class="profile-edit-actions">
+                <button onclick="saveProfile()" class="save-profile-btn">
+                  Сақтау
+                </button>
+                <button
+                  onclick="cancelProfileEdit()"
+                  class="cancel-profile-btn"
+                >
+                  Болдырмау
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="settings-card">
           <div class="section-title">
-            <i data-lucide="lock"></i> Қауіпсіздік
+            <i data-lucide="user"></i>
+            Аккаунт
           </div>
 
           <div class="row">
-            <span>Құпия сөз</span>
-            <button class="settings-btn">Өзгерту</button>
+            <span>Аккаунт деректерін жүктеу</span>
+            <button class="settings-btn">Жүктеу</button>
           </div>
 
           <div class="row">
-            <span>Email мекенжайын өзгерту</span>
-            <button class="settings-btn">Өзгерту</button>
+            <span>Аккаунтты өшіру</span>
+            <button class="settings-btn red">Өшіру</button>
           </div>
         </div>
 
@@ -863,22 +900,6 @@
               <option>Қараңғы (Dark)</option>
               <option>Жарық (Light)</option>
             </select>
-          </div>
-        </div>
-
-        <div class="settings-card full">
-          <div class="section-title">
-            <i data-lucide="user-round"></i> Аккаунт
-          </div>
-
-          <div class="row">
-            <span>Аккаунт деректерін жүктеу</span>
-            <button class="settings-btn">Жүктеу</button>
-          </div>
-
-          <div class="row">
-            <span>Аккаунтты уақытша өшіру</span>
-            <button class="settings-btn red">Өшіру</button>
           </div>
         </div>
       </div>
