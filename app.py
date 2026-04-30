@@ -1,18 +1,14 @@
-from flask import Flask, render_template, jsonify
-from train import generate_message
-import os
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 @app.route("/")
-def home():
-    return render_template("index.html")
+def login():
+    return render_template("index.html")  # templates/index.html
 
-@app.route("/get-message")
-def get_message():
-    message = generate_message()
-    return jsonify(message)
+@app.route("/SIMULIATOR")
+def simulator():
+    return render_template("SIMULIATOR.html")  # templates/SIMULIATOR.html
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run()
