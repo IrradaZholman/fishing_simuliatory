@@ -543,3 +543,107 @@ function logout() {
   localStorage.removeItem("user");
   window.location.href = "/";
 }
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem("user") || "{}");
+}
+
+function setCurrentUser(user) {
+  localStorage.setItem("user", JSON.stringify(user));
+}
+
+function loadProfileFromStorage() {
+  const user = getCurrentUser();
+
+  const fullname = user.fullname || user.name || "Қонақ";
+  const email = user.email || "Email жоқ";
+  const username = user.username || "";
+  const nickname = user.nickname || "";
+  const createdAt = user.created_at || "Тіркелген уақыты жоқ";
+
+  if (document.getElementById("profileName")) {
+    document.getElementById("profileName").innerText = fullname;
+  }
+
+  if (document.getElementById("profileFullname")) {
+    document.getElementById("profileFullname").innerText = fullname;
+  }
+
+  if (document.getElementById("profileEmail")) {
+    document.getElementById("profileEmail").innerText = email;
+  }
+
+  if (document.getElementById("profileCreatedAt")) {
+    document.getElementById("profileCreatedAt").innerText = createdAt;
+  }
+
+  if (document.getElementById("welcomeText")) {
+    document.getElementById("welcomeText").innerText = `Сәлем, ${fullname}! 👋`;
+  }
+
+  if (document.getElementById("headerAvatar")) {
+    document.getElementById("headerAvatar").innerText =
+      fullname.charAt(0).toUpperCase();
+  }
+
+  if (document.getElementById("editFio")) {
+    document.getElementById("editFio").value = fullname;
+  }
+
+  if (document.getElementById("editUsername")) {
+    document.getElementById("editUsername").value = username;
+  }
+
+  if (document.getElementById("editNickname")) {
+    document.getElementById("editNickname").value = nickname;
+  }
+
+  if (document.getElementById("editEmail")) {
+    document.getElementById("editEmail").value = email;
+  }
+}
+
+function editProfile() {
+  loadProfileFromStorage();
+
+  const form = document.getElementById("profileForm");
+  if (form) {
+    form.classList.add("active");
+  }
+}
+
+function cancelProfileEdit() {
+  const form = document.getElementById("profileForm");
+  if (form) {
+    form.classList.remove("active");
+  }
+}
+
+function saveProfile() {
+  const user = getCurrentUser();
+
+  user.fullname = document.getElementById("editFio").value.trim();
+  user.name = user.fullname;
+  user.username = document.getElementById("editUsername").value.trim();
+  user.nickname = document.getElementById("editNickname").value.trim();
+  user.email = document.getElementById("editEmail").value.trim();
+
+  setCurrentUser(user);
+
+  loadProfileFromStorage();
+  cancelProfileEdit();
+
+  alert("Профиль сәтті өзгертілді!");
+}
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "/";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadProfileFromStorage();
+
+  if (typeof lucide !== "undefined") {
+    lucide.createIcons();
+  }
+});
