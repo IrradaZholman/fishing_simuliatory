@@ -2,3 +2,4 @@ Flask
 gunicorn
 pymysql
 werkzeug
+psycopg2-binary
