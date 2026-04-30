@@ -2884,3 +2884,127 @@ select {
 .divider {
   margin: 14px 0 !important;
 }
+.profile-edit-form {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 260px; /* 👈 ені тұрақты болсын */
+}
+.profile-card {
+  min-height: 300px;
+}
+
+.profile-edit-layout {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.profile-photo-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.profile-photo-side .settings-avatar {
+  width: 128px;
+  height: 128px;
+}
+
+.photo-change-btn {
+  background: #fff;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.photo-change-btn svg {
+  width: 16px;
+  height: 16px;
+  color: #22c55e;
+}
+
+.profile-form-side {
+  position: relative;
+  padding-top: 18px;
+}
+
+.profile-form-side .profile-btn {
+  position: absolute;
+  top: -34px;
+  right: 0;
+}
+
+.profile-form-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.profile-form-row label {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.profile-form-row input {
+  height: 42px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+.profile-form-row input:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+.profile-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.save-profile-btn,
+.cancel-profile-btn {
+  min-width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.save-profile-btn {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.cancel-profile-btn {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+.profile-form-side {
+  display: none;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.profile-form-side.active {
+  display: block;
+  opacity: 1;
+}
