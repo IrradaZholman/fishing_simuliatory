@@ -335,3 +335,198 @@ label {
   color: #16a34a;
   font-weight: 600;
 }
+/* =========================
+   PHONE VERSION
+========================= */
+@media (max-width: 600px) {
+  body {
+    background: #f8fffb;
+  }
+
+  .login-page {
+    padding: 0;
+    min-height: 100vh;
+    align-items: flex-start;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+    height: auto;
+    display: block;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    background: linear-gradient(180deg, #f8fffb, #ffffff);
+    overflow: visible;
+    padding: 28px 22px 35px;
+  }
+
+  .login-left {
+    background: transparent;
+    padding: 0;
+  }
+
+  .brand {
+    margin-bottom: 35px;
+  }
+
+  .brand-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+  }
+
+  .brand-icon img {
+    width: 38px;
+  }
+
+  .brand h1 {
+    font-size: 28px;
+    letter-spacing: 1px;
+  }
+
+  .brand p {
+    font-size: 15px;
+  }
+
+  .left-text,
+  .daily-tip {
+    display: none;
+  }
+
+  .security-img {
+    width: 270px;
+    margin: 35px auto 0;
+    display: block;
+  }
+
+  .login-right {
+    padding: 0;
+    overflow: visible;
+    display: block;
+  }
+
+  .form-box {
+    max-width: 100%;
+  }
+
+  .form-box h2 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 14px;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+  }
+
+  label {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .input-box {
+    height: 58px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    background: #fff;
+  }
+
+  .input-box input {
+    font-size: 16px;
+  }
+
+  .input-box svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .options {
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  .remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .remember input {
+    width: 18px;
+    height: 18px;
+    accent-color: #16a34a;
+  }
+
+  .options a {
+    font-size: 15px;
+  }
+
+  .login-btn {
+    height: 60px;
+    border-radius: 12px;
+    font-size: 18px;
+  }
+
+  .divider {
+    margin: 32px 0;
+  }
+
+  .divider p {
+    font-size: 16px;
+  }
+
+  .free-btn {
+    padding: 20px;
+    border-radius: 14px;
+    font-size: 18px;
+  }
+
+  .free-btn small {
+    font-size: 15px;
+    margin-top: 8px;
+  }
+
+  .register {
+    font-size: 16px;
+    margin-top: 26px;
+  }
+
+  /* forgot password mobile */
+  .back-link {
+    margin-bottom: 30px;
+    font-size: 14px;
+  }
+
+  .steps {
+    margin: 30px 0 35px;
+  }
+
+  .step-circle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .step:not(:last-child)::after {
+    top: 18px;
+    left: 55%;
+    width: 90%;
+  }
+
+  .step p {
+    font-size: 12px;
+  }
+
+  .help-text {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+}
