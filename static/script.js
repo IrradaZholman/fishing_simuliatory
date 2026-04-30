@@ -80,6 +80,11 @@ function showRegister() {
     <i data-lucide="user"></i>
     <input id="fullname" type="text" placeholder="Мысалы: Иррада Бақытжанқызы" />
   </div>
+  <label>Логин (ағылшынша)</label>
+<div class="input-box">
+  <i data-lucide="user"></i>
+  <input id="regLogin" type="text" placeholder="Мысалы: irradaz123" />
+</div>
 
   <label>Email</label>
   <div class="input-box">
@@ -102,11 +107,11 @@ function showRegister() {
   </div>
 
   <!-- 👇 НИКНЕЙМ СОҢЫНДА -->
-  <label>Никнейм (логин)</label>
-  <div class="input-box">
-    <i data-lucide="user"></i>
-    <input id="regUsername" type="text" placeholder="Мысалы: irradaz" />
-  </div>
+<label>Никнейм</label>
+<div class="input-box">
+  <i data-lucide="user"></i>
+  <input id="regNickname" type="text" placeholder="Мысалы: irradaz" />
+</div>
 
   <div class="options">
     <label class="remember">
