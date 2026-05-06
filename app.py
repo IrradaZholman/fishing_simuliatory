@@ -3,10 +3,14 @@ import os
 import psycopg2
 import psycopg2.extras
 from werkzeug.security import generate_password_hash, check_password_hash
+from openai import OpenAI
 
 app = Flask(__name__)
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 def get_db():
@@ -359,6 +363,72 @@ def forgot_reset():
             cur.close()
         if conn:
             conn.close()
+
+
+@app.route("/api/ai-chat", methods=["POST"])
+def ai_chat():
+    try:
+        if not OPENAI_API_KEY:
+            return jsonify({
+                "success": False,
+                "message": "OPENAI_API_KEY табылмады. Render Environment-ке API key қосыңыз."
+            })
+
+        data = request.get_json()
+
+        if not data:
+            return jsonify({
+                "success": False,
+                "message": "Деректер келмеді"
+            })
+
+        user_message = data.get("message", "").strip()
+
+        if not user_message:
+            return jsonify({
+                "success": False,
+                "message": "Сұрақ бос"
+            })
+
+        response = client.chat.completions.create(
+            model="gpt-4.1-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """
+Сен CYBERSAQSHY платформасының AI-ассистентісің.
+Сенің міндетің — оқушыларға киберқауіпсіздік тақырыптарын түсіндіру.
+
+Жауап беру ережелері:
+- Міндетті түрде қазақ тілінде жауап бер.
+- Жауап оқушыға түсінікті, қысқа және нақты болсын.
+- Фишинг, жалған сайт, SMS алаяқтық, құпия сөз, QR код, ЖИ және дезинформация, интернет қауіпсіздігі тақырыптарына көмектес.
+- Қауіпті әрекетке нақты нұсқаулық берме.
+- Құпиясөз, банк картасы, SMS код сияқты жеке деректерді сұрама.
+- Егер сұрақ киберқауіпсіздікке қатысы болмаса, сыпайы түрде CYBERSAQSHY тек киберқауіпсіздік бойынша көмектесетінін айт.
+"""
+                },
+                {
+                    "role": "user",
+                    "content": user_message
+                }
+            ],
+            temperature=0.6,
+            max_tokens=500
+        )
+
+        ai_answer = response.choices[0].message.content
+
+        return jsonify({
+            "success": True,
+            "answer": ai_answer
+        })
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": "AI сервер қатесі: " + str(e)
+        })
 
 
 if __name__ == "__main__":
