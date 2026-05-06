@@ -10,7 +10,7 @@ app = Flask(__name__)
 DATABASE_URL = os.environ.get("postgresql://my_database_2hug_user:IZ5SV6o7CxdJwAOzb63OaPnpEBD6uFbm@dpg-d7o8th28qa3s73aljir0-a/my_database_2hug")
 OPENAI_API_KEY = os.environ.get("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")
 
-client = OpenAI(api_key=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)
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 def get_db():
