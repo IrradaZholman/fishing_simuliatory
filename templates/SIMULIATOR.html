@@ -5,12 +5,10 @@
     <title>CyberSafe Header</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='simuliator_design.css') }}"
-    />
+      href="{{ url_for('static', filename='simuliator_design.css') }}" />
     <script
       src="{{ url_for('static', filename='simuliator_js_code.js') }}"
-      defer
-    ></script>
+      defer></script>
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -189,8 +187,7 @@
           <div class="card-header">
             <div class="bank">
               <img
-                src="https://cdn-irec.r-99.com/sites/default/files/product-images/399872/ZSLoIZBv17uE7ldrExYRg.jpeg"
-              />
+                src="https://cdn-irec.r-99.com/sites/default/files/product-images/399872/ZSLoIZBv17uE7ldrExYRg.jpeg" />
               <div class="bank-info">
                 <strong>Kaspi Bank</strong>
                 <span>support@kaspi-secure.com</span>
@@ -940,50 +937,31 @@
           </div>
         </div>
 
-        <div class="chat-area">
-          <div class="message user">
-            <p>Фишингтік хатты қалай анықтауға болады?</p>
-            <span>14:32 ✓✓</span>
-          </div>
-
+        <div class="chat-area" id="aiMessages">
           <div class="message bot">
             <i data-lucide="bot"></i>
             <div>
-              <p>Фишингтік хатты анықтаудың бірнеше негізгі белгілері бар:</p>
-              <ul>
-                <li>Жіберуші мекенжайы күмәнді болады.</li>
-                <li>Шұғыл әрекет етуіңізді сұрайды.</li>
-                <li>Сілтеме басқа сайтқа бағыттайды.</li>
-                <li>Жеке ақпарат сұрайды.</li>
-              </ul>
-              <span>14:32</span>
-            </div>
-          </div>
-
-          <div class="message user">
-            <p>Қауіпті сілтемені қалай тексеруге болады?</p>
-            <span>14:33 ✓✓</span>
-          </div>
-
-          <div class="message bot">
-            <i data-lucide="bot"></i>
-            <div>
-              <p>Сілтемені тексерудің бірнеше тәсілі бар:</p>
-              <ul>
-                <li>Сілтеменің үстіне курсорды апарыңыз.</li>
-                <li>Сайттың домен атауын мұқият қараңыз.</li>
-                <li>Google Safe Browsing немесе VirusTotal қолданыңыз.</li>
-                <li>Қысқартылған сілтемелерге сақ болыңыз.</li>
-              </ul>
-              <span>14:33</span>
+              <p>
+                Сәлем! Мен CYBERSAQSHY AI-ассистентімін. Киберқауіпсіздік
+                бойынша сұрағыңызды жазыңыз.
+              </p>
+              <span>Қазір</span>
             </div>
           </div>
         </div>
 
         <div class="chat-input">
           <i data-lucide="paperclip"></i>
-          <input type="text" placeholder="Сұрағыңызды жазыңыз..." />
-          <button><i data-lucide="send"></i></button>
+
+          <input
+            type="text"
+            id="aiInput"
+            placeholder="Сұрағыңызды жазыңыз..."
+            autocomplete="off" />
+
+          <button type="button" id="aiSendBtn" onclick="sendAIMessage()">
+            <i data-lucide="send"></i>
+          </button>
         </div>
       </div>
 
@@ -994,49 +972,12 @@
             <i data-lucide="eye" onclick="toggleHistory()"></i>
           </div>
 
-          <div id="historyList">
-            <div class="history-item">
-              <i data-lucide="message-square"></i>
-              <div>
-                <b>Фишингтік хатты қалай анық...</b>
-                <p>Фишингтік хатты анықтаудың...</p>
-              </div>
-              <span>14:32</span>
-              <i data-lucide="trash-2"></i>
-            </div>
+          <div id="historyList"></div>
 
-            <div class="history-item">
-              <i data-lucide="message-square"></i>
-              <div>
-                <b>Қауіпті сілтемені қалай текс...</b>
-                <p>Сілтемені тексерудің бірнеше...</p>
-              </div>
-              <span>14:20</span>
-              <i data-lucide="trash-2"></i>
-            </div>
-
-            <div class="history-item">
-              <i data-lucide="message-square"></i>
-              <div>
-                <b>SMS арқылы келетін қауіпті...</b>
-                <p>SMS арқылы келетін қауіптер...</p>
-              </div>
-              <span>12:45</span>
-              <i data-lucide="trash-2"></i>
-            </div>
-
-            <div class="history-item">
-              <i data-lucide="message-square"></i>
-              <div>
-                <b>Жалған сайттарды қалай ту...</b>
-                <p>Жалған сайттарды анықтау үшін...</p>
-              </div>
-              <span>11:30</span>
-              <i data-lucide="trash-2"></i>
-            </div>
-          </div>
-
-          <button class="clear-history">
+          <button
+            type="button"
+            class="clear-history"
+            onclick="clearAIHistory()">
             <i data-lucide="trash-2"></i>
             Барлық тарихты тазарту
           </button>
@@ -1045,7 +986,9 @@
         <div id="hiddenBox" class="hidden-box" style="display: none">
           <i data-lucide="eye-off"></i>
           <p>Тарих жасырылған</p>
-          <button onclick="toggleHistory()">Тарихты көрсету</button>
+          <button type="button" onclick="toggleHistory()">
+            Тарихты көрсету
+          </button>
         </div>
       </div>
     </div>
