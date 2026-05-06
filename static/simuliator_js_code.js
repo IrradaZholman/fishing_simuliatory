@@ -799,3 +799,358 @@ function updateMailProgress() {
       left > 0 ? `Әлі ${left} тапсырма қалды` : "Бүгінгі тапсырмалар аяқталды";
   }
 }
+async function sendAIMessage() {
+  const input = document.getElementById("aiInput");
+  const messages = document.getElementById("aiMessages");
+
+  const user = JSON.parse(
+    localStorage.getItem("user") || "{}"
+  );
+
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  const time = new Date().toLocaleTimeString(
+    "kk-KZ",
+    {
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  );
+
+  messages.innerHTML += `
+    <div class="message user">
+
+      <p>${escapeHTML(text)}</p>
+
+      <span>${time} ✓✓</span>
+
+    </div>
+  `;
+
+  input.value = "";
+
+  const loadingId =
+    "loading-" + Date.now();
+
+  messages.innerHTML += `
+    <div
+      class="message bot"
+      id="${loadingId}"
+    >
+
+      <i data-lucide="bot"></i>
+
+      <div>
+        <p>Жауап жазылуда...</p>
+        <span>${time}</span>
+      </div>
+
+    </div>
+  `;
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+  lucide.createIcons();
+
+  try {
+    const res = await fetch(
+      "/api/ai-chat",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          user_id: user.id || null,
+          message: text
+        })
+      }
+    );
+
+    const data = await res.json();
+
+    const loading =
+      document.getElementById(
+        loadingId
+      );
+
+    if (data.success) {
+      loading.innerHTML = `
+        <i data-lucide="bot"></i>
+
+        <div>
+
+          <p>
+            ${formatAIAnswer(
+              data.answer
+            )}
+          </p>
+
+          <span>
+            ${data.chat.time}
+          </span>
+
+        </div>
+      `;
+
+      loadAIHistory();
+
+    } else {
+      loading.innerHTML = `
+        <i data-lucide="bot"></i>
+
+        <div>
+          <p>
+            ${escapeHTML(
+              data.message
+            )}
+          </p>
+
+          <span>${time}</span>
+        </div>
+      `;
+    }
+
+  } catch (error) {
+
+    document.getElementById(
+      loadingId
+    ).innerHTML = `
+      <i data-lucide="bot"></i>
+
+      <div>
+        <p>
+          Сервер қатесі
+        </p>
+
+        <span>${time}</span>
+      </div>
+    `;
+  }
+
+  lucide.createIcons();
+
+  messages.scrollTop =
+    messages.scrollHeight;
+}
+
+async function loadAIHistory() {
+
+  const historyList =
+    document.getElementById(
+      "historyList"
+    );
+
+  const user = JSON.parse(
+    localStorage.getItem("user") || "{}"
+  );
+
+  try {
+
+    const res = await fetch(
+      "/api/ai-history",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          user_id: user.id || null
+        })
+      }
+    );
+
+    const data = await res.json();
+
+    if (!data.success) return;
+
+    historyList.innerHTML = "";
+
+    data.history.forEach((item) => {
+
+      historyList.innerHTML += `
+        <div class="history-item">
+
+          <i
+            data-lucide="message-square"
+          ></i>
+
+          <div>
+
+            <b>
+              ${escapeHTML(
+                item.question
+              ).slice(0, 30)}...
+            </b>
+
+            <p>
+              ${escapeHTML(
+                item.answer
+              ).slice(0, 40)}...
+            </p>
+
+          </div>
+
+          <span>
+            ${item.time}
+          </span>
+
+        </div>
+      `;
+    });
+
+    lucide.createIcons();
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function clearAIHistory() {
+
+  const user = JSON.parse(
+    localStorage.getItem("user") || "{}"
+  );
+
+  if (
+    !confirm(
+      "Тарихты өшіресіз бе?"
+    )
+  ) return;
+
+  try {
+
+    const res = await fetch(
+      "/api/ai-history/clear",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          user_id: user.id || null
+        })
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.success) {
+
+      document.getElementById(
+        "historyList"
+      ).innerHTML = "";
+
+    } else {
+      alert(data.message);
+    }
+
+  } catch (error) {
+    alert("Қате шықты");
+  }
+}
+
+function toggleHistory() {
+
+  const list =
+    document.getElementById(
+      "historyList"
+    );
+
+  const hidden =
+    document.getElementById(
+      "hiddenBox"
+    );
+
+  const clearBtn =
+    document.querySelector(
+      ".clear-history"
+    );
+
+  if (
+    list.style.display ===
+    "none"
+  ) {
+
+    list.style.display =
+      "block";
+
+    hidden.style.display =
+      "none";
+
+    clearBtn.style.display =
+      "flex";
+
+  } else {
+
+    list.style.display =
+      "none";
+
+    hidden.style.display =
+      "block";
+
+    clearBtn.style.display =
+      "none";
+  }
+}
+
+function formatAIAnswer(text) {
+
+  return escapeHTML(text)
+    .replace(/\n/g, "<br>")
+    .replace(
+      /\*\*(.*?)\*\*/g,
+      "<b>$1</b>"
+    );
+}
+
+function escapeHTML(text) {
+
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    loadAIHistory();
+
+    const input =
+      document.getElementById(
+        "aiInput"
+      );
+
+    if (input) {
+
+      input.addEventListener(
+        "keydown",
+        (e) => {
+
+          if (
+            e.key === "Enter"
+          ) {
+
+            e.preventDefault();
+
+            sendAIMessage();
+          }
+        }
+      );
+    }
+  }
+);
