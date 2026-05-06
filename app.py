@@ -50,6 +50,16 @@ def init_db():
             ON users (nickname);
         """)
 
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS ai_chats (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER,
+                question TEXT NOT NULL,
+                answer TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+
         conn.commit()
         print("Database дайын!")
 
@@ -367,6 +377,9 @@ def forgot_reset():
 
 @app.route("/api/ai-chat", methods=["POST"])
 def ai_chat():
+    conn = None
+    cur = None
+
     try:
         if not OPENAI_API_KEY:
             return jsonify({
@@ -377,18 +390,13 @@ def ai_chat():
         data = request.get_json()
 
         if not data:
-            return jsonify({
-                "success": False,
-                "message": "Деректер келмеді"
-            })
+            return jsonify({"success": False, "message": "Деректер келмеді"})
 
+        user_id = data.get("user_id")
         user_message = data.get("message", "").strip()
 
         if not user_message:
-            return jsonify({
-                "success": False,
-                "message": "Сұрақ бос"
-            })
+            return jsonify({"success": False, "message": "Сұрақ бос"})
 
         response = client.chat.completions.create(
             model="gpt-4.1-mini",
@@ -419,16 +427,180 @@ def ai_chat():
 
         ai_answer = response.choices[0].message.content
 
+        conn = get_db()
+        cur = conn.cursor()
+
+        cur.execute("""
+            INSERT INTO ai_chats (user_id, question, answer)
+            VALUES (%s, %s, %s)
+            RETURNING id, created_at
+        """, (user_id, user_message, ai_answer))
+
+        saved = cur.fetchone()
+        conn.commit()
+
         return jsonify({
             "success": True,
-            "answer": ai_answer
+            "answer": ai_answer,
+            "chat": {
+                "id": saved["id"],
+                "question": user_message,
+                "answer": ai_answer,
+                "time": saved["created_at"].strftime("%H:%M")
+            }
+        })
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+
+        return jsonify({
+            "success": False,
+            "message": "AI сервер қатесі: " + str(e)
+        })
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+
+@app.route("/api/ai-history", methods=["POST"])
+def ai_history():
+    conn = None
+    cur = None
+
+    try:
+        data = request.get_json()
+        user_id = data.get("user_id")
+
+        conn = get_db()
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT id, question, answer, created_at
+            FROM ai_chats
+            WHERE user_id = %s
+            ORDER BY created_at DESC
+            LIMIT 20
+        """, (user_id,))
+
+        rows = cur.fetchall()
+
+        history = []
+
+        for row in rows:
+            history.append({
+                "id": row["id"],
+                "question": row["question"],
+                "answer": row["answer"],
+                "time": row["created_at"].strftime("%H:%M")
+            })
+
+        return jsonify({
+            "success": True,
+            "history": history
         })
 
     except Exception as e:
         return jsonify({
             "success": False,
-            "message": "AI сервер қатесі: " + str(e)
+            "message": "Тарих жүктелмеді: " + str(e)
         })
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+
+@app.route("/api/ai-history/clear", methods=["POST"])
+def clear_ai_history():
+    conn = None
+    cur = None
+
+    try:
+        data = request.get_json()
+        user_id = data.get("user_id")
+
+        conn = get_db()
+        cur = conn.cursor()
+
+        cur.execute("""
+            DELETE FROM ai_chats
+            WHERE user_id = %s
+        """, (user_id,))
+
+        conn.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "AI тарихы тазартылды"
+        })
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+
+        return jsonify({
+            "success": False,
+            "message": "Тарих тазартылмады: " + str(e)
+        })
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+
+@app.route("/api/ai-history/delete", methods=["POST"])
+def delete_ai_history_item():
+    conn = None
+    cur = None
+
+    try:
+        data = request.get_json()
+        chat_id = data.get("id")
+        user_id = data.get("user_id")
+
+        if not chat_id:
+            return jsonify({
+                "success": False,
+                "message": "ID келмеді"
+            })
+
+        conn = get_db()
+        cur = conn.cursor()
+
+        cur.execute("""
+            DELETE FROM ai_chats
+            WHERE id = %s AND user_id = %s
+        """, (chat_id, user_id))
+
+        conn.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Хабар өшірілді"
+        })
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+
+        return jsonify({
+            "success": False,
+            "message": "Өшіру қатесі: " + str(e)
+        })
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 
 if __name__ == "__main__":
